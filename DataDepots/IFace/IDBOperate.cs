@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+
+namespace DataDepots
+{
+    public interface IDBOperate
+    {
+        DataTable GetTable(CommondEntity commond);
+    }
+}
