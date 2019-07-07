@@ -10,7 +10,7 @@ namespace DataDepots
         {
             var tb = tableInfo;
             tb.Database.Name2 = string.Format(tb.Database.Name, time.ToString(tableInfo.Database.DBFlag));
-            tb.TableName2 = string.Format(tb.TableName, time.ToString(tableInfo.TableFlag));
+            tb.Name2 = string.Format(tb.Name, time.ToString(tableInfo.TableFlag));
 
             return tb;
         }

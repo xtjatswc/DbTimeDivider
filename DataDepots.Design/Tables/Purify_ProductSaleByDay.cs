@@ -12,7 +12,7 @@ namespace DataDepotsDemo
     {
         protected override void Define()
         {
-            Table.TableName = "Purify_ProductSaleByDay{0}";
+            Table.Name = "Purify_ProductSaleByDay{0}";
             Table.TableFlag = "_MM";
         }
     }

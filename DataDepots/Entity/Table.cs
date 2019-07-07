@@ -7,9 +7,9 @@ namespace DataDepots
     {
         public Database Database { get; set; }
 
-        public string TableName { get; set; }
+        public string Name { get; set; }
 
-        public string TableName2 { get; set; }
+        public string Name2 { get; set; }
 
         public string TableFlag { get; set; }
 

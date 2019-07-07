@@ -1,6 +1,7 @@
 ﻿using DataDepots.Define;
 using DataDepots.Util;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataDepots
 {
@@ -8,20 +9,20 @@ namespace DataDepots
     {
         public string IP { get; set; }
 
-        public Dictionary<string, Database> DataBase = new Dictionary<string, Database>();
-
-        internal DBServer AddDataBase()
+        private Dictionary<string, Database> _databases;
+        public Dictionary<string, Database> Databases
         {
-
-            var dbDefines = Depots.iContainer.GetServices<IDataBaseDefine>();
-            foreach (var dbDefine in dbDefines)
+            get
             {
-                this.DataBase.Add(dbDefine.Database.Name, dbDefine.Database);
-                dbDefine.Database.AddTable();
+                if (_databases == null)
+                {
+                    _databases = Depots.iContainer.GetServices<IDataBaseDefine>()
+                        .Select(o => o.Database)
+                        .Where(o => o.DBServer == this)
+                        .ToDictionary(k => k.Name, v => v);
+                }
+                return _databases;
             }
-
-            return this;
         }
-
     }
 }

@@ -17,15 +17,6 @@ namespace DataDepots
         public static void Register(string assemblyString)
         {
             iContainer = AutofacConfig.Register(assemblyString);
-
-            //var svrDefines = iContainer.GetServices<AbsDBServerDefine>();
-
-            //foreach (var svrDefine in svrDefines)
-            //{
-            //    var dbServer = svrDefine.DBServer;
-            //    DBServer.Add(dbServer.IP, dbServer);
-            //    dbServer.AddDataBase();
-            //}
         }
 
 

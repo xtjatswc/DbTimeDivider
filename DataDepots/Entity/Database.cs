@@ -1,6 +1,7 @@
 ﻿using DataDepots.Define;
 using DataDepots.Util;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataDepots
 {
@@ -22,22 +23,23 @@ namespace DataDepots
 
         public string DBFlag { get; set; }
 
-        public Dictionary<string, Table> Table = new Dictionary<string, Table>();
+        private Dictionary<string, Table> _tables = null;
+        public Dictionary<string, Table> Tables
+        {
+            get
+            {
+                if (_tables == null)
+                {
+                    _tables = Depots.iContainer.GetServices<ITableDefine>()
+                        .Select(o => o.Table)
+                        .Where(o => o.Database == this)
+                        .ToDictionary(k => k.Name, v => v);
+                }
+                return _tables;
+            }
+        }
+
 
         public IDBProvider DBProvider { get; set; }
-
-        internal Database AddTable()
-        {
-
-            var tbls = Depots.iContainer.GetServices<ITableDefine>();
-            foreach (var tbl in tbls)
-            {
-                var table = tbl.Table;
-                this.Table.Add(table.TableName, table);
-
-            }
-
-            return this;
-        }
     }
 }
