@@ -19,7 +19,7 @@ namespace DataDepots
             {
                 if (_servers == null)
                 {
-                    _servers = Depots.iContainer.GetServices<AbsServerDefine>()
+                    _servers = Depots.GetServices<AbsServerDefine>()
                         .Select(o => o.Server)
                         .ToDictionary(k => k.IP, v => v);
                 }
@@ -27,12 +27,20 @@ namespace DataDepots
             }
         }
 
-
         public static void Register(string assemblyString)
         {
             iContainer = AutofacConfig.Register(assemblyString);
         }
 
+        public static TService GetService<TService>()
+        {
+            return iContainer.GetService<TService>();
+        }
+
+        public static IEnumerable<TService> GetServices<TService>()
+        {
+            return iContainer.GetServices<TService>();
+        }
 
     }
 }

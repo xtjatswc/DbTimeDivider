@@ -19,7 +19,7 @@ namespace DataDepots
             Name2 = string.Format(Name, time.ToString(TableFlag));
             sql = string.Format(sql, this.Name2);
 
-            return Database.DBProvider.GetTable(this, sql);
+            return Database.DBProvider.GetTable(sql);
         }
     }
 }

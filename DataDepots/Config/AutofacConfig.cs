@@ -20,10 +20,13 @@ namespace DataDepots
                     typeof(AbsServerDefine).IsAssignableFrom(type)
                     || (type.BaseType != null && typeof(IDatabaseDefine).IsAssignableFrom(type.BaseType))
                     || (type.BaseType != null && typeof(ITableDefine).IsAssignableFrom(type.BaseType))
-                    || typeof(IDBProvider).IsAssignableFrom(type)
                  )
                 {
                     builder.RegisterType(type).SingleInstance();
+                }
+                else if (typeof(AbsDBProvider).IsAssignableFrom(type))
+                {
+                    builder.RegisterType(type);
                 }
             }
 

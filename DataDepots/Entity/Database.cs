@@ -30,7 +30,7 @@ namespace DataDepots
             {
                 if (_tables == null)
                 {
-                    _tables = Depots.iContainer.GetServices<ITableDefine>()
+                    _tables = Depots.GetServices<ITableDefine>()
                         .Select(o => o.Table)
                         .Where(o => o.Database == this)
                         .ToDictionary(k => k.Name, v => v);
@@ -40,6 +40,6 @@ namespace DataDepots
         }
 
 
-        public IDBProvider DBProvider { get; set; }
+        public AbsDBProvider DBProvider { get; set; }
     }
 }

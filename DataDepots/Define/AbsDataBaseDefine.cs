@@ -15,8 +15,8 @@ namespace DataDepots.Define
         {
             Database = new Database
             {
-                DBServer = (Depots.iContainer.GetService<BelongToClass>() as AbsServerDefine).Server,
-                DBProvider = Depots.iContainer.GetService<DBProviderClass>() as IDBProvider
+                DBServer = (Depots.GetService<BelongToClass>() as AbsServerDefine).Server,
+                DBProvider = Depots.GetService<DBProviderClass>() as AbsDBProvider
             };
             Define();
         }
