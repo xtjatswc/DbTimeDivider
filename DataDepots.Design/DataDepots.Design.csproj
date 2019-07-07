@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Databases\DataBase1.cs" />
-    <Compile Include="DBServers\DBServer1.cs" />
+    <Compile Include="Servers\Server1\Lnsky_Test.cs" />
+    <Compile Include="Servers\Server1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DBProvider\SqlServerDBProvider.cs" />
-    <Compile Include="Tables\Purify_ProductSaleByDay.cs" />
+    <Compile Include="Servers\Server1\Lnsky_Test\Purify_ProductSaleByDay.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataDepots\DataDepots.csproj">

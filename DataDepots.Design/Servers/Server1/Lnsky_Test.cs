@@ -3,7 +3,7 @@ using DataDepots.Define;
 
 namespace DataDepotsDemo
 {
-    public class DataBase1 : AbsDatabaseDefine<DBServer1, SqlServerDBProvider>
+    public class Lnsky_Test : AbsDatabaseDefine<Server1, SqlServerDBProvider>
     {
 
         protected override void Define()

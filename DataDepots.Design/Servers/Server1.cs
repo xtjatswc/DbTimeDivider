@@ -1,5 +1,4 @@
 ﻿using DataDepots;
-using DataDepots.IFace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace DataDepotsDemo
 {
-    public class Purify_ProductSaleByDay : AbsTableDefine<DataBase1>
+    public class Server1 : AbsServerDefine
     {
         protected override void Define()
         {
-            Table.Name = "Purify_ProductSaleByDay{0}";
-            Table.TableFlag = "_MM";
+            Server.IP = ".";
         }
     }
 }

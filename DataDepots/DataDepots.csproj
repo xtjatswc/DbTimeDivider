@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AutofacConfig.cs" />
-    <Compile Include="DBRoute.cs" />
     <Compile Include="Define\AbsDatabaseDefine.cs" />
     <Compile Include="Define\AbsServerDefine.cs" />
     <Compile Include="Define\AbsTableDefine.cs" />
