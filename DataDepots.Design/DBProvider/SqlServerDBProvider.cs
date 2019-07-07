@@ -1,4 +1,5 @@
 ﻿using DataDepots;
+using DataDepots.Entity;
 using FluentData;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace DataDepotsDemo
         {
             return string.Format(@"Server={0}\sqlexpress;Database={1};UID={2};Password={3};",
                 Database.DBServer.IP,
-                Database.Name2,
+                ExecContext.DatabaseName,
                 Database.UID,
                 Database.Password
             );
@@ -26,10 +27,5 @@ namespace DataDepotsDemo
             return new SqlServerProvider();
         }
 
-        public override DataTable GetTable(string sql)
-        {
-            var tbl = DbContext.Sql(sql).QuerySingle<DataTable>();
-            return tbl;
-        }
     }
 }

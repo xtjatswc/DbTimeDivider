@@ -15,8 +15,6 @@ namespace DataDepots
 
         public string Name { get; set; }
 
-        public string Name2 { get; set; }
-
         public string UID { get; set; }
 
         public string Password { get; set; }

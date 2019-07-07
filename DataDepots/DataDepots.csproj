@@ -56,6 +56,7 @@
     <Compile Include="Define\ITableDefine.cs" />
     <Compile Include="Depots.cs" />
     <Compile Include="Entity\Database.cs" />
+    <Compile Include="Entity\ExecContext.cs" />
     <Compile Include="Entity\Server.cs" />
     <Compile Include="Entity\Table.cs" />
     <Compile Include="IFace\AbsDBProvider.cs" />

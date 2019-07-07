@@ -1,4 +1,5 @@
 ﻿using DataDepots.Define;
+using DataDepots.Entity;
 using FluentData;
 using System.Collections.Generic;
 using System.Data;
@@ -8,6 +9,8 @@ namespace DataDepots
 {
     public abstract class AbsDBProvider
     {
+        protected ExecContext ExecContext { get; set; }
+
         private Database _database = null;
         protected Database Database
         {
@@ -26,14 +29,14 @@ namespace DataDepots
         {
             get
             {
-                if (_dictDbContext.ContainsKey(Database.Name2))
+                if (_dictDbContext.ContainsKey(ExecContext.DatabaseName))
                 {
-                    return _dictDbContext[Database.Name2];
+                    return _dictDbContext[ExecContext.DatabaseName];
                 }
                 else
                 {
                     var dbContext = GetDbContext();
-                    _dictDbContext.Add(Database.Name2, dbContext);
+                    _dictDbContext.Add(ExecContext.DatabaseName, dbContext);
                     return dbContext;
                 }
             }
@@ -48,7 +51,12 @@ namespace DataDepots
             return new DbContext().ConnectionString(GetConnStr(), GetDbProvider());
         }
 
-        public abstract DataTable GetTable(string sql);
+        public DataTable GetTable(ExecContext context)
+        {
+            ExecContext = context;
+            var tbl = DbContext.Sql(context.ExecSql).QuerySingle<DataTable>();
+            return tbl;
+        }
 
     }
 }

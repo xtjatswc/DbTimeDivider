@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataDepots.Entity;
+using System;
 using System.Data;
 
 namespace DataDepots
@@ -9,17 +10,17 @@ namespace DataDepots
 
         public string Name { get; set; }
 
-        public string Name2 { get; set; }
-
         public string TableFlag { get; set; }
 
         public DataTable Query(string sql, DateTime time)
         {
-            Database.Name2 = string.Format(Database.Name, time.ToString(Database.DBFlag));
-            Name2 = string.Format(Name, time.ToString(TableFlag));
-            sql = string.Format(sql, this.Name2);
+            ExecContext context = new ExecContext();
+            context.Table = this;
+            context.DatabaseName = string.Format(Database.Name, time.ToString(Database.DBFlag));
+            context.TableName = string.Format(Name, time.ToString(TableFlag));
+            context.ExecSql = string.Format(sql, context.TableName);
 
-            return Database.DBProvider.GetTable(sql);
+            return Database.DBProvider.GetTable(context);
         }
     }
 }
