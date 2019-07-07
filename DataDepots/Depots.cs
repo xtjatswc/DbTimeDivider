@@ -12,7 +12,21 @@ namespace DataDepots
     {
         public static IContainer iContainer;
 
-        public static Dictionary<string, DBServer> DBServer = new Dictionary<string, DBServer>();
+        private static Dictionary<string, Server> _servers = null;
+        public static Dictionary<string, Server> Servers
+        {
+            get
+            {
+                if (_servers == null)
+                {
+                    _servers = Depots.iContainer.GetServices<AbsServerDefine>()
+                        .Select(o => o.Server)
+                        .ToDictionary(k => k.IP, v => v);
+                }
+                return _servers;
+            }
+        }
+
 
         public static void Register(string assemblyString)
         {

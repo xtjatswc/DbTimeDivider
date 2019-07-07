@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace DataDepotsDemo
 {
-    public class DBServer1 : AbsDBServerDefine
+    public class DBServer1 : AbsServerDefine
     {
         protected override void Define()
         {
-            DBServer.IP = ".";
+            Server.IP = ".";
         }
     }
 }

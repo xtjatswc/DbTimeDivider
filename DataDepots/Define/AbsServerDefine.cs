@@ -4,13 +4,13 @@ using System.Text;
 
 namespace DataDepots
 {
-    public abstract class AbsDBServerDefine
+    public abstract class AbsServerDefine
     {
-        public DBServer DBServer { get; set; }
+        public Server Server { get; set; }
 
-        public AbsDBServerDefine()
+        public AbsServerDefine()
         {
-            DBServer = new DBServer();
+            Server = new Server();
             Define();
         }
 

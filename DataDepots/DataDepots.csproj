@@ -49,13 +49,13 @@
     <Compile Include="DBOperate.cs" />
     <Compile Include="DBRoute.cs" />
     <Compile Include="Define\AbsDataBaseDefine.cs" />
-    <Compile Include="Define\AbsDBServerDefine.cs" />
+    <Compile Include="Define\AbsServerDefine.cs" />
     <Compile Include="Define\AbsTableDefine.cs" />
     <Compile Include="Define\IDataBaseDefine.cs" />
     <Compile Include="Define\ITableDefine.cs" />
     <Compile Include="Depots.cs" />
     <Compile Include="Entity\Database.cs" />
-    <Compile Include="Entity\DBServer.cs" />
+    <Compile Include="Entity\Server.cs" />
     <Compile Include="Entity\Table.cs" />
     <Compile Include="IFace\IDBOperate.cs" />
     <Compile Include="IFace\IDBOperate2.cs" />

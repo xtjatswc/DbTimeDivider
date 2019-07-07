@@ -18,9 +18,10 @@ namespace DataDepotsDemo
 
             //
             string sql = "select * from {0}";
-            //var tbl2 = Depots.DBServer["."].DataBase["Lnsky_Test"].Table["Purify_ProductSaleByDay"].Query(sql, DateTime.Now);
+            var tbl2 = Depots.Servers["."].Databases["Lnsky_Test{0}"].Tables["Purify_ProductSaleByDay{0}"].Query(sql, DateTime.Now);
+
             var tbl = Depots.iContainer.GetService<Purify_ProductSaleByDay>().Table;
-            var tbl2 = tbl.Query(sql, DateTime.Now);
+            var tbl3 = tbl.Query(sql, DateTime.Now);
         }
 
 

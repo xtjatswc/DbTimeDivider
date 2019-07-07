@@ -17,7 +17,7 @@ namespace DataDepots
             foreach (var type in ass.GetTypes())
             {
                 if (
-                    typeof(AbsDBServerDefine).IsAssignableFrom(type)
+                    typeof(AbsServerDefine).IsAssignableFrom(type)
                     || (type.BaseType != null && typeof(IDataBaseDefine).IsAssignableFrom(type.BaseType))
                     || (type.BaseType != null && typeof(ITableDefine).IsAssignableFrom(type.BaseType))
                     || typeof(IDBProvider).IsAssignableFrom(type)

@@ -7,7 +7,7 @@ namespace DataDepots
 {
     public class Database
     {
-        public DBServer DBServer { get; set; }
+        public Server DBServer { get; set; }
 
         public string Port { get; set; }
 

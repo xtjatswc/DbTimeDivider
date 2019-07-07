@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DataDepots
 {
-    public class DBServer
+    public class Server
     {
         public string IP { get; set; }
 
