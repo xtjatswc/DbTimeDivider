@@ -14,7 +14,7 @@ namespace DataDepots.IFace
         {
             Table = new Table
             {
-                Database = (Depots.iContainer.GetService<BelongToClass>() as IDataBaseDefine).Database,
+                Database = (Depots.iContainer.GetService<BelongToClass>() as IDatabaseDefine).Database,
             };
             Define();
         }

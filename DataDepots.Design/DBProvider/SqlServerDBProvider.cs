@@ -13,24 +13,24 @@ namespace DataDepotsDemo
     {
         Dictionary<Database, IDbContext> dbCache = new Dictionary<Database, IDbContext>();
 
-        public DataTable GetTable(CommondEntity commond, string sql)
+        public DataTable GetTable(Table table, string sql)
         {
             IDbContext dbContext = null;
-            if (dbCache.ContainsKey(commond.TableInfo.Database))
+            if (dbCache.ContainsKey(table.Database))
             {
-                dbContext = dbCache[commond.TableInfo.Database];
+                dbContext = dbCache[table.Database];
             }
             else
             {
                 string connStr = string.Format(@"Server={0}\sqlexpress;Database={1};UID={2};Password={3};",
-                    commond.TableInfo.Database.DBServer.IP,
-                    commond.TableInfo.Database.Name2,
-                    commond.TableInfo.Database.UID,
-                    commond.TableInfo.Database.Password
+                    table.Database.DBServer.IP,
+                    table.Database.Name2,
+                    table.Database.UID,
+                    table.Database.Password
                 );
 
                 dbContext = new DbContext().ConnectionString(connStr, new SqlServerProvider());
-                dbCache.Add(commond.TableInfo.Database, dbContext);
+                dbCache.Add(table.Database, dbContext);
             }
 
             var tbl = dbContext.Sql(sql).QuerySingle<DataTable>();

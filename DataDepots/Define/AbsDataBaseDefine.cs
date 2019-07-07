@@ -5,13 +5,13 @@ using System.Text;
 
 namespace DataDepots.Define
 {
-    public abstract class AbsDataBaseDefine<BelongToClass, DBProviderClass>: IDataBaseDefine
+    public abstract class AbsDatabaseDefine<BelongToClass, DBProviderClass>: IDatabaseDefine
     {
         public Type BelongTo => typeof(BelongToClass);
 
         public Database Database { get; set; }
 
-        public AbsDataBaseDefine()
+        public AbsDatabaseDefine()
         {
             Database = new Database
             {

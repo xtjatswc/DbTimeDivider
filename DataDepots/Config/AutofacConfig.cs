@@ -18,7 +18,7 @@ namespace DataDepots
             {
                 if (
                     typeof(AbsServerDefine).IsAssignableFrom(type)
-                    || (type.BaseType != null && typeof(IDataBaseDefine).IsAssignableFrom(type.BaseType))
+                    || (type.BaseType != null && typeof(IDatabaseDefine).IsAssignableFrom(type.BaseType))
                     || (type.BaseType != null && typeof(ITableDefine).IsAssignableFrom(type.BaseType))
                     || typeof(IDBProvider).IsAssignableFrom(type)
                  )

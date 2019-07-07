@@ -5,8 +5,8 @@ using System.Text;
 
 namespace DataDepots
 {
-    public interface IDBOperate
+    public interface IDBProvider
     {
-        DataTable GetTable(CommondEntity commond);
+        DataTable GetTable(Table table, string sql);
     }
 }

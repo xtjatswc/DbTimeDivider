@@ -16,7 +16,7 @@ namespace DataDepots
             {
                 if (_databases == null)
                 {
-                    _databases = Depots.iContainer.GetServices<IDataBaseDefine>()
+                    _databases = Depots.iContainer.GetServices<IDatabaseDefine>()
                         .Select(o => o.Database)
                         .Where(o => o.DBServer == this)
                         .ToDictionary(k => k.Name, v => v);

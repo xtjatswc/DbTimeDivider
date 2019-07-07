@@ -15,15 +15,13 @@ namespace DataDepots
 
         public DataTable Query(string sql, DateTime operateTime)
         {
-            CommondEntity commond = new CommondEntity();
-            commond.Sql = sql;
-            commond.TableInfo = this;
-            commond.OperateTime = operateTime;
-            commond.IDBOperate2 = Database.DBProvider;
+            DBRoute dBRoute = new DBRoute();
 
-            DBOperate dbOpr = new DBOperate();
-            var tbl = dbOpr.GetTable(commond);
-            return tbl;
+            dBRoute.GetTableInfo(this, operateTime);
+
+            sql = string.Format(sql, this.Name2);
+
+            return Database.DBProvider.GetTable(this, sql);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataDepots.Define
 {
-    public interface IDataBaseDefine
+    public interface IDatabaseDefine
     {
         Database Database { get; set; }
     }
