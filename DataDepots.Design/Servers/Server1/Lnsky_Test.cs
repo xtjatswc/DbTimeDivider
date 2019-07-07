@@ -1,5 +1,6 @@
 ﻿using DataDepots;
 using DataDepots.Define;
+using DataDepots.Core;
 
 namespace DataDepotsDemo
 {
@@ -8,10 +9,10 @@ namespace DataDepotsDemo
 
         protected override void Define()
         {
-            Database.Name = "Lnsky_Test{0}";
+            Database.Name = "Lnsky_Test_{0}";
             Database.UID = "sa";
             Database.Password = "sa";
-            Database.DBFlag = "_yy";
+            Database.DepotsFlag = DepotsFlag.yy;
         }
 
     }

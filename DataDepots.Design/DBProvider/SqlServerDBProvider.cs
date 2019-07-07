@@ -16,7 +16,7 @@ namespace DataDepotsDemo
         {
             return string.Format(@"Server={0}\sqlexpress;Database={1};UID={2};Password={3};",
                 Database.DBServer.IP,
-                ExecContext.DatabaseName,
+                SingleSql.DatabaseName,
                 Database.UID,
                 Database.Password
             );

@@ -1,4 +1,5 @@
 ﻿using DataDepots.Define;
+using DataDepots.Core;
 using DataDepots.Util;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace DataDepots
 
         public string Password { get; set; }
 
-        public string DBFlag { get; set; }
+        public DepotsFlag DepotsFlag { get; set; }
 
         private Dictionary<string, Table> _tables = null;
         public Dictionary<string, Table> Tables

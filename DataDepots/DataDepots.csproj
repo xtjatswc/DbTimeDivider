@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\AutofacConfig.cs" />
+    <Compile Include="Core\DepotsType.cs" />
     <Compile Include="Define\AbsDatabaseDefine.cs" />
     <Compile Include="Define\AbsServerDefine.cs" />
     <Compile Include="Define\AbsTableDefine.cs" />
@@ -58,7 +59,9 @@
     <Compile Include="Entity\Database.cs" />
     <Compile Include="Entity\ExecContext.cs" />
     <Compile Include="Entity\Server.cs" />
+    <Compile Include="Entity\SingleSql.cs" />
     <Compile Include="Entity\Table.cs" />
+    <Compile Include="Core\DepotsFlag.cs" />
     <Compile Include="IFace\AbsDBProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\AutoFacUtil.cs" />

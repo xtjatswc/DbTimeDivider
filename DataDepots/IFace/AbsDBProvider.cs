@@ -9,7 +9,7 @@ namespace DataDepots
 {
     public abstract class AbsDBProvider
     {
-        protected ExecContext ExecContext { get; set; }
+        protected SingleSql SingleSql { get; set; }
 
         private Database _database = null;
         protected Database Database
@@ -29,14 +29,14 @@ namespace DataDepots
         {
             get
             {
-                if (_dictDbContext.ContainsKey(ExecContext.DatabaseName))
+                if (_dictDbContext.ContainsKey(SingleSql.DatabaseName))
                 {
-                    return _dictDbContext[ExecContext.DatabaseName];
+                    return _dictDbContext[SingleSql.DatabaseName];
                 }
                 else
                 {
                     var dbContext = GetDbContext();
-                    _dictDbContext.Add(ExecContext.DatabaseName, dbContext);
+                    _dictDbContext.Add(SingleSql.DatabaseName, dbContext);
                     return dbContext;
                 }
             }
@@ -51,11 +51,17 @@ namespace DataDepots
             return new DbContext().ConnectionString(GetConnStr(), GetDbProvider());
         }
 
-        public DataTable GetTable(ExecContext context)
+        public IEnumerable<DataRow> GetTable(ExecContext context)
         {
-            ExecContext = context;
-            var tbl = DbContext.Sql(context.ExecSql).QuerySingle<DataTable>();
-            return tbl;
+            IEnumerable<DataRow> result = new List<DataRow>();
+            foreach (var singleSql in context.SqlList)
+            {
+                SingleSql = singleSql;
+                var tbl = DbContext.Sql(singleSql.ExecSql).QuerySingle<DataTable>();
+                result = result.Concat(tbl.AsEnumerable());
+            }
+
+            return result;
         }
 
     }

@@ -8,13 +8,13 @@ namespace DataDepots.Entity
 {
     public class ExecContext
     {
-        public string DatabaseName { get; set; }
-
-        public string TableName { get; set; }
-
         public Table Table { get; set; }
 
-        public string ExecSql { get; set; }
+        public List<SingleSql> SqlList { get; set; }
+
+        public DateTime TargetTime1 { get; set; }
+
+        public DateTime TargetTime2 { get; set; }
 
     }
 }
