@@ -11,19 +11,24 @@ namespace DataDepotsDemo
 {
     public class SqlServerDBProvider : AbsDBProvider
     {
-        public override DataTable GetTable(string sql)
+        protected override string GetConnStr()
         {
-            IDbContext dbContext = null;
-            string connStr = string.Format(@"Server={0}\sqlexpress;Database={1};UID={2};Password={3};",
+            return string.Format(@"Server={0}\sqlexpress;Database={1};UID={2};Password={3};",
                 Database.DBServer.IP,
                 Database.Name2,
                 Database.UID,
                 Database.Password
             );
+        }
 
-            dbContext = new DbContext().ConnectionString(connStr, new SqlServerProvider());
+        protected override IDbProvider GetDbProvider()
+        {
+            return new SqlServerProvider();
+        }
 
-            var tbl = dbContext.Sql(sql).QuerySingle<DataTable>();
+        public override DataTable GetTable(string sql)
+        {
+            var tbl = DbContext.Sql(sql).QuerySingle<DataTable>();
             return tbl;
         }
     }
