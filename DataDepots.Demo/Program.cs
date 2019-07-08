@@ -16,7 +16,7 @@ namespace DataDepotsDemo
 
             var tbl = Depots.GetService<Purify_ProductSaleByDay>().Table;
             //var tbl3 = tbl.Query(sql, DateTime.Now);
-            var tbl4 = tbl.Query(sql, DateTime.Now.AddMonths(-2), DateTime.Now.AddHours(-1));
+            var tbl4 = tbl.Query(sql, DateTime.Parse("2019-12-01"), DateTime.Parse("2020-05-01"));
 
 
 

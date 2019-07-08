@@ -40,5 +40,7 @@ namespace DataDepots
 
 
         public AbsDBProvider DBProvider { get; set; }
+
+        public IDatabaseDefine IDatabaseDefine { get; set; }
     }
 }

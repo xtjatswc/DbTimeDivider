@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataDepots.Define;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,13 @@ namespace DataDepots.Entity
 {
     public class ExecContext
     {
+
+        public IDatabaseDefine IDatabaseDefine { get; set; }
+
+        public Database Database { get; set; }
+
+        public ITableDefine ITableDefine { get; set; }
+
         public Table Table { get; set; }
 
         public List<SingleSql> SqlList { get; set; }

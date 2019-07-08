@@ -9,7 +9,7 @@ namespace DataDepots
 {
     public abstract class AbsDBProvider
     {
-        protected SingleSql SingleSql { get; set; }
+        public SingleSql SingleSql { get; set; }
 
         private Database _database = null;
         protected Database Database
@@ -25,7 +25,7 @@ namespace DataDepots
         }
 
         private SortedDictionary<string, IDbContext> _dictDbContext = new SortedDictionary<string, IDbContext>();
-        protected IDbContext DbContext
+        public IDbContext DbContext
         {
             get
             {
@@ -46,6 +46,10 @@ namespace DataDepots
 
         protected abstract IDbProvider GetDbProvider();
 
+        public abstract bool IsDatabaseExists(string dbName);
+
+        public abstract bool IsTableExists(string tableName);
+
         private IDbContext GetDbContext()
         {
             return new DbContext().ConnectionString(GetConnStr(), GetDbProvider());
@@ -53,6 +57,10 @@ namespace DataDepots
 
         public IEnumerable<DataRow> GetTable(ExecContext context)
         {
+            //判断数据库、表是否存在
+            context.IDatabaseDefine.CheckExists(context);
+            context.ITableDefine.CheckExists(context);
+
             IEnumerable<DataRow> result = new List<DataRow>();
             foreach (var singleSql in context.SqlList)
             {

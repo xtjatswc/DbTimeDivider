@@ -1,4 +1,5 @@
 ﻿using DataDepots.Core;
+using DataDepots.Define;
 using DataDepots.Entity;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace DataDepots
         public string Name { get; set; }
 
         public DepotsFlag DepotsFlag { get; set; }
+
+        public ITableDefine ITableDefine { get; set; }
 
         public DepotsType DepotsType
         {
@@ -52,6 +55,9 @@ namespace DataDepots
         public IEnumerable<DataRow> Query(string sql, DateTime targetTime1, DateTime targetTime2)
         {
             ExecContext context = new ExecContext();
+            context.IDatabaseDefine = this.Database.IDatabaseDefine;
+            context.Database = this.Database;
+            context.ITableDefine = this.ITableDefine;
             context.Table = this;
             context.TargetTime1 = targetTime1;
             context.TargetTime2 = targetTime2;
@@ -75,8 +81,8 @@ namespace DataDepots
                     tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-MM-dd")).AddDays(1).AddSeconds(-1);
                     break;
                 case DepotsType.Hour:
-                    tempTime1 = DateTime.Parse(targetTime1.ToString("yyyy-MM-dd HH:00:01"));
-                    tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-MM-dd HH:00:01")).AddHours(1).AddSeconds(-1);
+                    tempTime1 = DateTime.Parse(targetTime1.ToString("yyyy-MM-dd HH:00:00"));
+                    tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-MM-dd HH:00:00")).AddHours(1).AddSeconds(-1);
                     break;
                 default:
                     break;
