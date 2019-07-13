@@ -11,11 +11,9 @@ namespace DbTimeDivider.Entity
 
         public Database Database { get; set; }
 
-        public ITableSchema ITableSchema { get; set; }
+        public List<ITableSchema> ITableSchemas { get; set; }
 
-        public Table Table { get; set; }
-
-        public List<ParticleSet> Particles { get; set; }
+        public List<QueryItem> QueryItems { get; set; }
 
         public DateTime TargetTime1 { get; set; }
 

@@ -59,7 +59,7 @@
     <Compile Include="Entity\Database.cs" />
     <Compile Include="Entity\DivisionContext.cs" />
     <Compile Include="Entity\DbHost.cs" />
-    <Compile Include="Entity\ParticleSet.cs" />
+    <Compile Include="Entity\QueryItem.cs" />
     <Compile Include="Entity\Table.cs" />
     <Compile Include="Core\DivisionFlag.cs" />
     <Compile Include="IFace\AbsDBProvider.cs" />

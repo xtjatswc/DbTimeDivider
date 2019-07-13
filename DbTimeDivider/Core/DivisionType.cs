@@ -8,6 +8,7 @@ namespace DataDepots.Core
 {
     public enum DivisionType
     {
+        None,
         Year,
         Month,
         Day,

@@ -8,6 +8,7 @@ namespace DataDepots.Core
 {
     public enum DivisionFlag
     {
+        None,
         //年
         yyyy,
         yy,

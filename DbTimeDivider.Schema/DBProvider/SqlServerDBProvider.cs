@@ -21,7 +21,7 @@ namespace DbTimeDivider.Schema.DBProvider
         {
             return string.Format(@"Server={0};Database={1};UID={2};Password={3};",
                 Database.DbHost.IP,
-                CurrentParticleSet.DatabaseName,
+                CurrentQueryItem.DatabaseName,
                 Database.UID,
                 Database.Password
             );

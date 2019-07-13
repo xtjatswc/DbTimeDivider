@@ -32,8 +32,8 @@ namespace DbTimeDivider.Schema
 
         public void CheckExists(DivisionContext context)
         {
-            var dbNames = context.Particles.Select(o => o.DatabaseName).Distinct();
-            Database.DBProvider.CurrentParticleSet = new ParticleSet() { DatabaseName = "master" };
+            var dbNames = context.QueryItems.Select(o => o.DatabaseName).Distinct();
+            Database.DBProvider.CurrentQueryItem = new QueryItem() { DatabaseName = "master" };
 
             foreach (var dbName in dbNames)
             {

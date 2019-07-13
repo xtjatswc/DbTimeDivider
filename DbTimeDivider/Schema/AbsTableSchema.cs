@@ -24,21 +24,22 @@ namespace DbTimeDivider.Schema
 
         public void CheckExists(DivisionContext context)
         {
-            foreach (var particleSet in context.Particles)
+            foreach (var queryItem in context.QueryItems)
             {
-                string existsKey = $"{particleSet.DatabaseName}=>{particleSet.TableName}";
+                var tableName = queryItem.TableNames[this];
+                string existsKey = $"{queryItem.DatabaseName}=>{tableName}";
 
                 if (_isExists.Contains(existsKey))
                     continue;
 
-                Table.Database.DBProvider.CurrentParticleSet = particleSet;
-                if (Table.Database.DBProvider.IsTableExists(particleSet.TableName))
+                Table.Database.DBProvider.CurrentQueryItem = queryItem;
+                if (Table.Database.DBProvider.IsTableExists(tableName))
                 {
                     _isExists.Add(existsKey);
                     continue;
                 }
 
-                Create(particleSet.TableName);
+                Create(tableName);
                 _isExists.Add(existsKey);
             }
 

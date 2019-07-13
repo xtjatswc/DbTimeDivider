@@ -1,5 +1,5 @@
 ﻿using DbTimeDivider;
-using DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_;
+using DbTimeDivider.Schema.DbHost.DbHost1_;
 using System;
 
 namespace DataDepotsDemo
@@ -11,12 +11,13 @@ namespace DataDepotsDemo
             TimeDivider.Register("DbTimeDivider.Schema");
 
             //
-            string sql = "select * from {0}";
+            string sql = @"select * from 『Purify_ProductSaleByDay_{0}』 a 
+left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo";
             //var tbl2 = Depots.Servers["."].Databases["Lnsky_Test_{0}"].Tables["Purify_ProductSaleByDay_{0}"].Query(sql, DateTime.Now);
 
-            var tbl = TimeDivider.GetService<Purify_ProductSaleByDay>().Table;
+            var db = TimeDivider.GetService<Lnsky_Test>().Database;
             //var tbl3 = tbl.Query(sql, DateTime.Now);
-            var tbl4 = tbl.Query(sql, DateTime.Parse("2019-12-01"), DateTime.Parse("2020-05-01"));
+            var tbl4 = db.Query(sql, DateTime.Parse("2019-06-01"), DateTime.Parse("2020-05-01"));
 
 
 

@@ -1,5 +1,4 @@
-﻿using DbTimeDivider;
-using DbTimeDivider.Entity;
+﻿using DbTimeDivider.Entity;
 using DbTimeDivider.Schema;
 using FluentData;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace DbTimeDivider.IFace
 {
     public abstract class AbsDBProvider
     {
-        public ParticleSet CurrentParticleSet { get; set; }
+        public QueryItem CurrentQueryItem { get; set; }
 
         private Database _database = null;
         protected Database Database
@@ -30,14 +29,14 @@ namespace DbTimeDivider.IFace
         {
             get
             {
-                if (_dictDbContext.ContainsKey(CurrentParticleSet.DatabaseName))
+                if (_dictDbContext.ContainsKey(CurrentQueryItem.DatabaseName))
                 {
-                    return _dictDbContext[CurrentParticleSet.DatabaseName];
+                    return _dictDbContext[CurrentQueryItem.DatabaseName];
                 }
                 else
                 {
                     var dbContext = GetDbContext();
-                    _dictDbContext.Add(CurrentParticleSet.DatabaseName, dbContext);
+                    _dictDbContext.Add(CurrentQueryItem.DatabaseName, dbContext);
                     return dbContext;
                 }
             }
@@ -60,12 +59,15 @@ namespace DbTimeDivider.IFace
         {
             //判断数据库、表是否存在
             context.IDbSchema.CheckExists(context);
-            context.ITableSchema.CheckExists(context);
+            foreach (var schema in context.ITableSchemas)
+            {
+                schema.CheckExists(context);
+            }
 
             IEnumerable<DataRow> result = new List<DataRow>();
-            foreach (var singleSql in context.Particles)
+            foreach (var singleSql in context.QueryItems)
             {
-                CurrentParticleSet = singleSql;
+                CurrentQueryItem = singleSql;
                 var tbl = DbContext.Sql(singleSql.ExecSql).QuerySingle<DataTable>();
                 result = result.Concat(tbl.AsEnumerable());
             }
