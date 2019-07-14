@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTimeDivider.Demo", "DbTim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTimeDivider.Schema", "DbTimeDivider.Schema\DbTimeDivider.Schema.csproj", "{55D9DABB-32C9-4DF2-B7E7-D133956D8FD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbTimeDivider.Entity", "DbTimeDivider.Entity\DbTimeDivider.Entity.csproj", "{7DB1E04A-5A75-473A-9541-8993A2157583}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{55D9DABB-32C9-4DF2-B7E7-D133956D8FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D9DABB-32C9-4DF2-B7E7-D133956D8FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D9DABB-32C9-4DF2-B7E7-D133956D8FD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DB1E04A-5A75-473A-9541-8993A2157583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DB1E04A-5A75-473A-9541-8993A2157583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DB1E04A-5A75-473A-9541-8993A2157583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DB1E04A-5A75-473A-9541-8993A2157583}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

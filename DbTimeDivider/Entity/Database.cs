@@ -67,6 +67,21 @@ namespace DbTimeDivider.Entity
             }
         }
 
+        public List<T> Query<T>(string sql, DateTime targetTime1)
+        {
+            return Query<T>(sql, targetTime1, targetTime1);
+        }
+
+        public List<T> Query<T>(string sql, DateTime targetTime1, DateTime targetTime2)
+        {
+            if (targetTime1 > targetTime2)
+                return new List<T>();
+
+            var context = GetDivisionContext(sql, targetTime1, targetTime2);
+            return DBProvider.GetList<T>(context);
+
+        }
+
         public DataTable Query(string sql, DateTime targetTime1)
         {
             return Query(sql, targetTime1, targetTime1);
@@ -76,6 +91,14 @@ namespace DbTimeDivider.Entity
         {
             if (targetTime1 > targetTime2)
                 return new DataTable();
+
+            var context = GetDivisionContext(sql, targetTime1, targetTime2);
+            return DBProvider.GetTable(context);
+
+        }
+
+        private DivisionContext GetDivisionContext(string sql, DateTime targetTime1, DateTime targetTime2)
+        {
 
             DivisionContext context = new DivisionContext();
             context.IDbSchema = IDbSchema;
@@ -132,7 +155,7 @@ namespace DbTimeDivider.Entity
                 }
             }
 
-            return DBProvider.GetTable(context);
+            return context;
         }
 
     }

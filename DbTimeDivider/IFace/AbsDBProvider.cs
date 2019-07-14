@@ -55,7 +55,7 @@ namespace DbTimeDivider.IFace
             return new DbContext().ConnectionString(GetConnStr(), GetDbProvider());
         }
 
-        public DataTable GetTable(DivisionContext context)
+        private void CheckExists(DivisionContext context)
         {
             //判断数据库、表是否存在
             context.IDbSchema.CheckExists(context);
@@ -63,6 +63,11 @@ namespace DbTimeDivider.IFace
             {
                 schema.CheckExists(context);
             }
+        }
+
+        public DataTable GetTable(DivisionContext context)
+        {
+            CheckExists(context);
 
             DataTable retTbl = null;
             foreach (var queryItem in context.QueryItems)
@@ -82,5 +87,19 @@ namespace DbTimeDivider.IFace
             return retTbl;
         }
 
+        public List<T> GetList<T>(DivisionContext context)
+        {
+            CheckExists(context);
+
+            List<T> retList = new List<T>();
+            foreach (var queryItem in context.QueryItems)
+            {
+                CurrentQueryItem = queryItem;
+                var list = DbContext.Sql(queryItem.ExecSql).QueryMany<T>();
+                retList.AddRange(list);
+            }
+
+            return retList;
+        }
     }
 }
