@@ -1,5 +1,8 @@
 ﻿using DbTimeDivider.Entity;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Text;
 
 namespace DbTimeDivider.Schema
 {
@@ -42,6 +45,20 @@ namespace DbTimeDivider.Schema
                 Create(tableName);
                 _isExists.Add(existsKey);
             }
+
+        }
+
+        public string GenerateEntity(DateTime targetTime)
+        {
+            string sql = $"select * from 『{Table.Name}』 where 1=2";
+            DataTable tbl = Table.Database.Query(sql, targetTime);
+            StringBuilder sb = new StringBuilder();
+            foreach (DataColumn column in tbl.Columns)
+            {
+                sb.AppendLine();
+                sb.AppendLine("public " + column.DataType.Name + " " + column.ColumnName + "{ get; set; }");
+            }
+            return sb.ToString();
 
         }
     }

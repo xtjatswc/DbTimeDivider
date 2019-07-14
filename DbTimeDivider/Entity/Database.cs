@@ -1,4 +1,5 @@
 ﻿using DataDepots.Core;
+using DbTimeDivider.Core;
 using DbTimeDivider.IFace;
 using DbTimeDivider.Schema;
 using System;
@@ -24,6 +25,14 @@ namespace DbTimeDivider.Entity
         public string Password { get; set; }
 
         public DivisionFlag DivisionFlag { get; set; }
+
+        public DivisionType DivisionType
+        {
+            get
+            {
+                return DivisionFlag.GetDivisionType();
+            }
+        }
 
         private Dictionary<string, Table> _tables = null;
         public Dictionary<string, Table> Tables
@@ -58,15 +67,15 @@ namespace DbTimeDivider.Entity
             }
         }
 
-        public IEnumerable<DataRow> Query(string sql, DateTime targetTime1)
+        public DataTable Query(string sql, DateTime targetTime1)
         {
             return Query(sql, targetTime1, targetTime1);
         }
 
-        public IEnumerable<DataRow> Query(string sql, DateTime targetTime1, DateTime targetTime2)
+        public DataTable Query(string sql, DateTime targetTime1, DateTime targetTime2)
         {
             if (targetTime1 > targetTime2)
-                throw new Exception("参数：targetTime1必须小于或等于targetTime2");
+                return new DataTable();
 
             DivisionContext context = new DivisionContext();
             context.IDbSchema = IDbSchema;
@@ -79,9 +88,6 @@ namespace DbTimeDivider.Entity
             //提取表名
             Regex regex = new Regex(@"『(?<tableName>.+?)』", RegexOptions.Multiline);
             var matchs = regex.Matches(sql);
-
-            if (matchs.Count == 0)
-                throw new Exception("从sql中未匹配到任何表");
            
             foreach (Match match in matchs)
             {
@@ -95,31 +101,11 @@ namespace DbTimeDivider.Entity
             }            
 
             //找到粒度最小的
-            var divisionType = context.ITableSchemas.Max(o => o.Table.DivisionType);
+            var divisionType = context.ITableSchemas.Count > 0 ? context.ITableSchemas.Max(o => o.Table.DivisionType) : DivisionType;
             DateTime tempTime1 = targetTime1;
             DateTime tempTime2 = targetTime2;
 
-            switch (divisionType)
-            {
-                case DivisionType.Year:
-                    tempTime1 = DateTime.Parse(targetTime1.ToString("yyyy-01-01"));
-                    tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-01-01")).AddYears(1).AddSeconds(-1);
-                    break;
-                case DivisionType.Month:
-                    tempTime1 = DateTime.Parse(targetTime1.ToString("yyyy-MM-01"));
-                    tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-MM-01")).AddMonths(1).AddSeconds(-1);
-                    break;
-                case DivisionType.Day:
-                    tempTime1 = DateTime.Parse(targetTime1.ToString("yyyy-MM-dd"));
-                    tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-MM-dd")).AddDays(1).AddSeconds(-1);
-                    break;
-                case DivisionType.Hour:
-                    tempTime1 = DateTime.Parse(targetTime1.ToString("yyyy-MM-dd HH:00:00"));
-                    tempTime2 = DateTime.Parse(targetTime2.ToString("yyyy-MM-dd HH:00:00")).AddHours(1).AddSeconds(-1);
-                    break;
-                default:
-                    break;
-            }
+            divisionType.SetTargetTime(ref tempTime1, ref tempTime2);
 
             while (true)
             {
@@ -138,23 +124,7 @@ namespace DbTimeDivider.Entity
 
                 context.QueryItems.Add(queryItem);
 
-                switch (divisionType)
-                {
-                    case DivisionType.Year:
-                        tempTime1 = tempTime1.AddYears(1);
-                        break;
-                    case DivisionType.Month:
-                        tempTime1 = tempTime1.AddMonths(1);
-                        break;
-                    case DivisionType.Day:
-                        tempTime1 = tempTime1.AddDays(1);
-                        break;
-                    case DivisionType.Hour:
-                        tempTime1 = tempTime1.AddHours(1);
-                        break;
-                    default:
-                        break;
-                }
+                divisionType.PlusTargetTime(ref tempTime1);
 
                 if (tempTime1 > tempTime2)
                 {

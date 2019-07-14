@@ -1,4 +1,5 @@
 ﻿using DataDepots.Core;
+using DbTimeDivider.Core;
 using DbTimeDivider.Schema;
 using System;
 using System.Collections.Generic;
@@ -20,31 +21,7 @@ namespace DbTimeDivider.Entity
         {
             get
             {
-                switch (DivisionFlag)
-                {
-                    case DivisionFlag.None:
-                        return DivisionType.None;
-                    case DivisionFlag.yyyy:
-                    case DivisionFlag.yy:
-                        return DivisionType.Year;
-                    case DivisionFlag.MM:
-                    case DivisionFlag.yyyyMM:
-                    case DivisionFlag.yyMM:
-                        return DivisionType.Month;
-                    case DivisionFlag.dd:
-                    case DivisionFlag.MMdd:
-                    case DivisionFlag.yyyyMMdd:
-                    case DivisionFlag.yyMMdd:
-                        return DivisionType.Day;
-                    case DivisionFlag.HH:
-                    case DivisionFlag.ddHH:
-                    case DivisionFlag.MMddHH:
-                    case DivisionFlag.yyyyMMddHH:
-                    case DivisionFlag.yyMMddHH:
-                        return DivisionType.Hour;
-                    default:
-                        throw new Exception("未识别的DepotsFlag");
-                }
+                return DivisionFlag.GetDivisionType();
             }
         }
 

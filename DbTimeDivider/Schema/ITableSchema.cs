@@ -1,4 +1,5 @@
 ﻿using DbTimeDivider.Entity;
+using System;
 
 namespace DbTimeDivider.Schema
 {
@@ -9,6 +10,8 @@ namespace DbTimeDivider.Schema
         Table Table { get; set; }
 
         void Create(string tableName);
+
+        string GenerateEntity(DateTime targetTime);
 
     }
 }
