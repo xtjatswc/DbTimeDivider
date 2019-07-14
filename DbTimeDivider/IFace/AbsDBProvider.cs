@@ -65,7 +65,7 @@ namespace DbTimeDivider.IFace
             }
         }
 
-        public DataTable GetTable(DivisionContext context)
+        public DataTable GetTable(DivisionContext context, params object[] parameters)
         {
             CheckExists(context);
 
@@ -73,7 +73,7 @@ namespace DbTimeDivider.IFace
             foreach (var queryItem in context.QueryItems)
             {
                 CurrentQueryItem = queryItem;
-                var tbl = DbContext.Sql(queryItem.ExecSql).QuerySingle<DataTable>();
+                var tbl = DbContext.Sql(queryItem.ExecSql, parameters).QuerySingle<DataTable>();
                 if(retTbl == null)
                 {
                     retTbl = tbl;
@@ -87,7 +87,7 @@ namespace DbTimeDivider.IFace
             return retTbl;
         }
 
-        public List<T> GetList<T>(DivisionContext context)
+        public List<T> GetList<T>(DivisionContext context, params object[] parameters)
         {
             CheckExists(context);
 
@@ -95,7 +95,7 @@ namespace DbTimeDivider.IFace
             foreach (var queryItem in context.QueryItems)
             {
                 CurrentQueryItem = queryItem;
-                var list = DbContext.Sql(queryItem.ExecSql).QueryMany<T>();
+                var list = DbContext.Sql(queryItem.ExecSql, parameters).QueryMany<T>();
                 retList.AddRange(list);
             }
 
