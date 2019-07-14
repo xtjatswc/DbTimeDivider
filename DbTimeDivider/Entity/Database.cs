@@ -46,6 +46,18 @@ namespace DbTimeDivider.Entity
 
         public IDbSchema IDbSchema { get; set; }
 
+        public string GetRealName(DateTime targetTime)
+        {
+            if (DivisionFlag == DivisionFlag.None)
+            {
+                return Name;
+            }
+            else
+            {
+                return string.Format(Name, targetTime.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag)));
+            }
+        }
+
         public IEnumerable<DataRow> Query(string sql, DateTime targetTime1)
         {
             return Query(sql, targetTime1, targetTime1);
@@ -113,13 +125,12 @@ namespace DbTimeDivider.Entity
             {
                 QueryItem queryItem = new QueryItem();
                 queryItem.ExecSql = sql;
-                queryItem.DatabaseName = string.Format(Name, tempTime1.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag)));
+                queryItem.DatabaseName = GetRealName(tempTime1);
 
                 //需要替换的表
-                var tableSchemas = context.ITableSchemas.Where(o => o.Table.DivisionType == divisionType);
-                foreach (var tableSchema in tableSchemas)
+                foreach (var tableSchema in context.ITableSchemas)
                 {
-                    string tableName = string.Format(tableSchema.Table.Name, tempTime1.ToString(Enum.GetName(typeof(DivisionFlag), tableSchema.Table.DivisionFlag)));
+                    string tableName = tableSchema.Table.GetRealName(tempTime1);
                     queryItem.TableNames.Add(tableSchema, tableName);
                     queryItem.ExecSql = queryItem.ExecSql.Replace($"『{tableSchema.Table.Name}』", tableName);
                 }

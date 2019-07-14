@@ -48,5 +48,17 @@ namespace DbTimeDivider.Entity
             }
         }
 
+        public string GetRealName(DateTime targetTime)
+        {
+            if(DivisionType == DivisionType.None)
+            {
+                return Name;
+            }
+            else
+            {
+                return string.Format(Name, targetTime.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag)));
+            }
+        }
+
     }
 }
