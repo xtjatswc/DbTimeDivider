@@ -48,10 +48,13 @@ namespace DbTimeDivider.Schema
 
         }
 
-        public string GenerateEntity(DateTime targetTime)
+        public string GenerateEntity()
         {
-            string sql = $"select * from 『{Table.Name}』 where 1=2";
-            DataTable tbl = Table.Database.Query(sql, targetTime);
+            QueryPara queryPara = new QueryPara
+            {
+                Sql = $"select * from 『{Table.Name}』 where 1=2"
+            };
+            DataTable tbl = Table.Database.Query(queryPara);
             StringBuilder sb = new StringBuilder();
             foreach (DataColumn column in tbl.Columns)
             {

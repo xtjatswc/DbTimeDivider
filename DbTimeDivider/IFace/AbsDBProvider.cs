@@ -65,7 +65,18 @@ namespace DbTimeDivider.IFace
             }
         }
 
-        public DataTable GetTable(DivisionContext context, params object[] parameters)
+        private FluentData.IDbCommand GetDbCommand(QueryPara queryPara, QueryItem queryItem)
+        {
+            FluentData.IDbCommand dbCommand = DbContext.Sql(queryItem.ExecSql, queryPara.parameters.ToArray());
+            foreach (var param in queryPara.ParamSet)
+            {
+                dbCommand = dbCommand.Parameter(param.Key, param.Value);
+            }
+
+            return dbCommand;
+        }
+
+        public DataTable GetTable(DivisionContext context)
         {
             CheckExists(context);
 
@@ -73,8 +84,9 @@ namespace DbTimeDivider.IFace
             foreach (var queryItem in context.QueryItems)
             {
                 CurrentQueryItem = queryItem;
-                var tbl = DbContext.Sql(queryItem.ExecSql, parameters).QuerySingle<DataTable>();
-                if(retTbl == null)
+
+                var tbl = GetDbCommand(context.QueryPara, queryItem).QuerySingle<DataTable>();
+                if (retTbl == null)
                 {
                     retTbl = tbl;
                 }
@@ -87,7 +99,7 @@ namespace DbTimeDivider.IFace
             return retTbl;
         }
 
-        public List<T> GetList<T>(DivisionContext context, params object[] parameters)
+        public List<T> GetList<T>(DivisionContext context)
         {
             CheckExists(context);
 
@@ -95,7 +107,8 @@ namespace DbTimeDivider.IFace
             foreach (var queryItem in context.QueryItems)
             {
                 CurrentQueryItem = queryItem;
-                var list = DbContext.Sql(queryItem.ExecSql, parameters).QueryMany<T>();
+
+                var list = GetDbCommand(context.QueryPara, queryItem).QueryMany<T>();
                 retList.AddRange(list);
             }
 

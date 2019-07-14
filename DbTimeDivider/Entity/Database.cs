@@ -67,50 +67,39 @@ namespace DbTimeDivider.Entity
             }
         }
 
-        public List<T> Query<T>(string sql, DateTime targetTime1, params object[] parameters)
+        public List<T> Query<T>(QueryPara parameter)
         {
-            return Query<T>(sql, targetTime1, targetTime1, parameters);
-        }
-
-        public List<T> Query<T>(string sql, DateTime targetTime1, DateTime targetTime2, params object[] parameters)
-        {
-            if (targetTime1 > targetTime2)
+            if (parameter.TargetTime1 > parameter.TargetTime2)
                 return new List<T>();
 
-            var context = GetDivisionContext(sql, targetTime1, targetTime2);
-            return DBProvider.GetList<T>(context, parameters);
+            var context = GetDivisionContext(parameter);
+            return DBProvider.GetList<T>(context);
 
         }
 
-        public DataTable Query(string sql, DateTime targetTime1, params object[] parameters)
+        public DataTable Query(QueryPara parameter)
         {
-            return Query(sql, targetTime1, targetTime1, parameters);
-        }
-
-        public DataTable Query(string sql, DateTime targetTime1, DateTime targetTime2, params object[] parameters)
-        {
-            if (targetTime1 > targetTime2)
+            if (parameter.TargetTime1 > parameter.TargetTime2)
                 return new DataTable();
 
-            var context = GetDivisionContext(sql, targetTime1, targetTime2);
-            return DBProvider.GetTable(context, parameters);
+            var context = GetDivisionContext(parameter);
+            return DBProvider.GetTable(context);
 
         }
 
-        private DivisionContext GetDivisionContext(string sql, DateTime targetTime1, DateTime targetTime2)
+        private DivisionContext GetDivisionContext(QueryPara parameter)
         {
 
             DivisionContext context = new DivisionContext();
             context.IDbSchema = IDbSchema;
             context.Database = this;
             context.ITableSchemas = new List<ITableSchema>();
-            context.TargetTime1 = targetTime1;
-            context.TargetTime2 = targetTime2;
+            context.QueryPara = parameter;
             context.QueryItems = new List<QueryItem>();
 
             //提取表名
             Regex regex = new Regex(@"『(?<tableName>.+?)』", RegexOptions.Multiline);
-            var matchs = regex.Matches(sql);
+            var matchs = regex.Matches(parameter.Sql);
            
             foreach (Match match in matchs)
             {
@@ -125,15 +114,15 @@ namespace DbTimeDivider.Entity
 
             //找到粒度最小的
             var divisionType = context.ITableSchemas.Count > 0 ? context.ITableSchemas.Max(o => o.Table.DivisionType) : DivisionType;
-            DateTime tempTime1 = targetTime1;
-            DateTime tempTime2 = targetTime2;
+            DateTime tempTime1 = parameter.TargetTime1;
+            DateTime tempTime2 = parameter.TargetTime2;
 
             divisionType.SetTargetTime(ref tempTime1, ref tempTime2);
 
             while (true)
             {
                 QueryItem queryItem = new QueryItem();
-                queryItem.ExecSql = sql;
+                queryItem.ExecSql = parameter.Sql;
                 queryItem.DatabaseName = GetRealName(tempTime1);
 
                 //需要替换的表

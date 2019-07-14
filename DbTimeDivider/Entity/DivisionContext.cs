@@ -15,9 +15,7 @@ namespace DbTimeDivider.Entity
 
         public List<QueryItem> QueryItems { get; set; }
 
-        public DateTime TargetTime1 { get; set; }
-
-        public DateTime TargetTime2 { get; set; }
+        public QueryPara QueryPara { get; set; }
 
     }
 }

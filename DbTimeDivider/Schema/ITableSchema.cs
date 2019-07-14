@@ -11,7 +11,7 @@ namespace DbTimeDivider.Schema
 
         void Create(string tableName);
 
-        string GenerateEntity(DateTime targetTime);
+        string GenerateEntity();
 
     }
 }
