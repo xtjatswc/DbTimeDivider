@@ -33,7 +33,9 @@ namespace DbTimeDivider.Schema
         public void CheckExists(DivisionContext context)
         {
             var dbNames = context.QueryItems.Select(o => o.DatabaseName).Distinct();
-            Database.DBProvider.CurrentQueryItem = new QueryItem() { DatabaseName = "master" };
+
+            if(Database.DBProvider is SqlServerBaseProvider)
+                Database.DBProvider.CurrentQueryItem = new QueryItem() { DatabaseName = "master" };
 
             foreach (var dbName in dbNames)
             {
@@ -50,6 +52,11 @@ namespace DbTimeDivider.Schema
                 _isExists.Add(dbName);
 
             }
+        }
+
+        public void Execute(string sql)
+        {
+            Database.DBProvider.DbContext.Sql(sql).Execute();
         }
     }
 }

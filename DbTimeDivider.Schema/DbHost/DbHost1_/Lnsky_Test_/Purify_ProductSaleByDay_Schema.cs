@@ -260,13 +260,7 @@ GO
             string[] arr = sql.Split(new string[] { "GO\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var item in arr)
             {
-                try
-                {
-                    Table.Database.DBProvider.DbContext.Sql(item).Execute();
-                }
-                catch
-                {
-                }
+                Execute(item);
             }
         }
 

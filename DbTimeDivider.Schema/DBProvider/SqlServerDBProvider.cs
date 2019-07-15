@@ -1,5 +1,4 @@
 ﻿using DbTimeDivider.IFace;
-using FluentData;
 
 namespace DbTimeDivider.Schema.DBProvider
 {

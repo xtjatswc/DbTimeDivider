@@ -23,13 +23,7 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_
   [SysNo] varchar(50) COLLATE Chinese_PRC_CI_AS  NULL
 )";
             sql = string.Format(sql, tableName);
-            try
-            {
-                Table.Database.DBProvider.DbContext.Sql(sql).Execute();
-            }
-            catch
-            {
-            }
+            Execute(sql);
         }
 
     }

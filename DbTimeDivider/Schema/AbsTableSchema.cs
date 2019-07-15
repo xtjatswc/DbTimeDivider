@@ -64,5 +64,11 @@ namespace DbTimeDivider.Schema
             return sb.ToString();
 
         }
+
+        public void Execute(string sql)
+        {
+            Table.Database.DBProvider.DbContext.Sql(sql).Execute();
+        }
+
     }
 }

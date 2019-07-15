@@ -9,7 +9,7 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_
         public override void Create(string dbName)
         {
             string sql = $"Create database {dbName}";
-            Database.DBProvider.DbContext.Sql(sql).Execute();
+            Execute(sql);
         }
 
         protected override void Define()
