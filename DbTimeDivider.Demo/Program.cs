@@ -58,11 +58,11 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 StatisticalDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
                 DataSource = "aaa",
-                OutProductID = "ddd"
+                OutProductID = "ddd" + DateTime.Now.ToString()
             };
             rows = db.Insert<Purify_ProductSaleByDay>(parameter, model, x => x.ProductID);
 
-            //修改
+            //修改（注：主键是必须要排除的，有唯一索引时，不要多行更新成一样的值，会报错）
             parameter = new QueryPara
             {
                 Sql = @"『Purify_ProductSaleByDay_{0}』",
@@ -76,9 +76,9 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 StatisticalDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
                 DataSource = "aaa123",
-                OutProductID = "ddd"
+                OutProductID = "ddd" + DateTime.Now.ToString()
             };
-            rows = db.Update<Purify_ProductSaleByDay>(parameter, model, x => x.ProductName, i => i.ProductName, i => i.StatisticalDate);
+            rows = db.Update<Purify_ProductSaleByDay>(parameter, model, x => x.SysNo, i => i.SysNo);
 
         }
 
