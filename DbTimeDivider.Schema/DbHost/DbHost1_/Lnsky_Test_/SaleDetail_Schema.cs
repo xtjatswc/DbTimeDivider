@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_
 {
-    public class SaleDetail : AbsTableSchema<Lnsky_Test>
+    public class SaleDetail_Schema : AbsTableSchema<Lnsky_Test>
     {
 
         protected override void Define()

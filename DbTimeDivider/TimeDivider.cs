@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using DataDepots.Config;
 using DataDepots.Util;
+using DbTimeDivider.Config;
 using DbTimeDivider.Entity;
 using DbTimeDivider.Schema;
 using System.Collections.Generic;
@@ -29,7 +29,8 @@ namespace DbTimeDivider
 
         public static void Register(string assemblyString)
         {
-            iContainer = AutofacConfig.Register(assemblyString);
+            if (iContainer == null)
+                iContainer = AutofacConfig.Register(assemblyString);
         }
 
         public static TService GetService<TService>()

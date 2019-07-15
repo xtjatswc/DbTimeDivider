@@ -1,6 +1,7 @@
 ﻿using DbTimeDivider;
 using DbTimeDivider.Entity;
 using DbTimeDivider.Schema.DbHost.DbHost1_;
+using DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_;
 using System;
 using System.Collections;
 using System.Collections.Generic;

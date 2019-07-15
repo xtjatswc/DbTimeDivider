@@ -4,7 +4,7 @@ using DbTimeDivider.Schema;
 using System.Reflection;
 using IContainer = Autofac.IContainer;
 
-namespace DataDepots.Config
+namespace DbTimeDivider.Config
 {
     public class AutofacConfig
     {

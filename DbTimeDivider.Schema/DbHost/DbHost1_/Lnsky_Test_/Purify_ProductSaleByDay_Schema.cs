@@ -4,7 +4,7 @@ using System;
 
 namespace DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_
 {
-    public class Purify_ProductSaleByDay : AbsTableSchema<Lnsky_Test>
+    public class Purify_ProductSaleByDay_Schema : AbsTableSchema<Lnsky_Test>
     {
         protected override void Define()
         {
