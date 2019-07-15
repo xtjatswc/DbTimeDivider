@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
 namespace DbTimeDivider.Entity
@@ -93,6 +94,19 @@ namespace DbTimeDivider.Entity
             return DBProvider.Execute(context);
         }
 
+        public int Insert<T>(QueryPara parameter, T t, params Expression<Func<T, object>>[] ignoreProperties)
+        {
+            var context = GetDivisionContext(parameter);
+            return DBProvider.Insert(context, t, ignoreProperties);
+        }
+
+        public int Update<T>(QueryPara parameter, T t, Expression<Func<T, object>> whereProperties, params Expression<Func<T, object>>[] ignoreProperties)
+        {
+            var context = GetDivisionContext(parameter);
+            return DBProvider.Update(context, t, whereProperties, ignoreProperties);
+        }
+
+
         private DivisionContext GetDivisionContext(QueryPara parameter)
         {
 
@@ -106,17 +120,17 @@ namespace DbTimeDivider.Entity
             //提取表名
             Regex regex = new Regex(@"『(?<tableName>.+?)』", RegexOptions.Multiline);
             var matchs = regex.Matches(parameter.Sql);
-           
+
             foreach (Match match in matchs)
             {
                 string tableName = match.Groups["tableName"].Value;
                 var table = Tables[tableName];
 
-                if(!context.ITableSchemas.Contains(table.ITableSchema))
+                if (!context.ITableSchemas.Contains(table.ITableSchema))
                 {
                     context.ITableSchemas.Add(table.ITableSchema);
                 }
-            }            
+            }
 
             //找到粒度最小的
             var divisionType = context.ITableSchemas.Count > 0 ? context.ITableSchemas.Max(o => o.Table.DivisionType) : DivisionType;

@@ -1,9 +1,11 @@
 ﻿using DbTimeDivider.Entity;
 using DbTimeDivider.Schema;
 using FluentData;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DbTimeDivider.IFace
 {
@@ -127,10 +129,55 @@ namespace DbTimeDivider.IFace
                 using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
                 {
                     affectedRows += GetDbCommand(dbContext, context.QueryPara, queryItem).Execute();
+                    dbContext.Commit();
                 }
             }
 
             return affectedRows;
         }
+
+        public int Insert<T>(DivisionContext context, T t, params Expression<Func<T, object>>[] ignoreProperties)
+        {
+            CheckExists(context);
+
+            int affectedRows = 0;
+            foreach (var queryItem in context.QueryItems)
+            {
+                CurrentQueryItem = queryItem;
+
+                using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
+                {                    
+                    affectedRows += DbContext.Insert<T>(queryItem.TableNames.First().Value, t)
+                        .AutoMap(ignoreProperties)
+                        .Execute();
+                    dbContext.Commit();
+                }
+            }
+
+            return affectedRows;
+        }
+
+        public int Update<T>(DivisionContext context, T t, Expression<Func<T, object>> whereProperties, params Expression<Func<T, object>>[] ignoreProperties)
+        {
+            CheckExists(context);
+
+            int affectedRows = 0;
+            foreach (var queryItem in context.QueryItems)
+            {
+                CurrentQueryItem = queryItem;
+
+                using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
+                {
+                    affectedRows += DbContext.Update<T>(queryItem.TableNames.First().Value, t)
+                        .AutoMap(ignoreProperties)
+                        .Where(whereProperties)
+                        .Execute();
+                    dbContext.Commit();
+                }
+            }
+
+            return affectedRows;
+        }
+
     }
 }
