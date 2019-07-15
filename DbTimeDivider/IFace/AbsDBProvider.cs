@@ -65,9 +65,9 @@ namespace DbTimeDivider.IFace
             }
         }
 
-        private FluentData.IDbCommand GetDbCommand(QueryPara queryPara, QueryItem queryItem)
+        private FluentData.IDbCommand GetDbCommand(IDbContext dbContext, QueryPara queryPara, QueryItem queryItem)
         {
-            FluentData.IDbCommand dbCommand = DbContext.Sql(queryItem.ExecSql, queryPara.parameters.ToArray());
+            FluentData.IDbCommand dbCommand = dbContext.Sql(queryItem.ExecSql, queryPara.Parameters.ToArray());
             foreach (var param in queryPara.ParamSet)
             {
                 dbCommand = dbCommand.Parameter(param.Key, param.Value);
@@ -85,7 +85,7 @@ namespace DbTimeDivider.IFace
             {
                 CurrentQueryItem = queryItem;
 
-                var tbl = GetDbCommand(context.QueryPara, queryItem).QuerySingle<DataTable>();
+                var tbl = GetDbCommand(DbContext, context.QueryPara, queryItem).QuerySingle<DataTable>();
                 if (retTbl == null)
                 {
                     retTbl = tbl;
@@ -108,11 +108,29 @@ namespace DbTimeDivider.IFace
             {
                 CurrentQueryItem = queryItem;
 
-                var list = GetDbCommand(context.QueryPara, queryItem).QueryMany<T>();
+                var list = GetDbCommand(DbContext, context.QueryPara, queryItem).QueryMany<T>();
                 retList.AddRange(list);
             }
 
             return retList;
+        }
+
+        public int Execute(DivisionContext context)
+        {
+            CheckExists(context);
+
+            int affectedRows = 0;
+            foreach (var queryItem in context.QueryItems)
+            {
+                CurrentQueryItem = queryItem;
+
+                using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
+                {
+                    affectedRows += GetDbCommand(dbContext, context.QueryPara, queryItem).Execute();
+                }
+            }
+
+            return affectedRows;
         }
     }
 }

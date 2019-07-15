@@ -87,6 +87,12 @@ namespace DbTimeDivider.Entity
 
         }
 
+        public int Execute(QueryPara parameter)
+        {
+            var context = GetDivisionContext(parameter);
+            return DBProvider.Execute(context);
+        }
+
         private DivisionContext GetDivisionContext(QueryPara parameter)
         {
 
@@ -130,7 +136,7 @@ namespace DbTimeDivider.Entity
                 {
                     string tableName = tableSchema.Table.GetRealName(tempTime1);
                     queryItem.TableNames.Add(tableSchema, tableName);
-                    queryItem.ExecSql = queryItem.ExecSql.Replace($"『{tableSchema.Table.Name}』", tableName);
+                    queryItem.ExecSql = queryItem.ExecSql.Replace($"『{tableSchema.Table.Name}』", $" {tableName} ");
                 }
                 queryItem.TargetTime = tempTime1;
 

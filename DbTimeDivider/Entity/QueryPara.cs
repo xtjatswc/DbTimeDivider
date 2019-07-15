@@ -44,6 +44,8 @@ namespace DbTimeDivider.Entity
 
         public Dictionary<string, object> ParamSet { get; set; } = new Dictionary<string, object>();
 
-        public List<object> parameters { get; set; } = new List<object>();
+        public List<object> Parameters { get; set; } = new List<object>();
+
+        public bool UseTransaction { get; set; }
     }
 }
