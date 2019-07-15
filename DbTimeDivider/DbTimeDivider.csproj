@@ -55,6 +55,7 @@
     <Compile Include="Core\Division.cs" />
     <Compile Include="Core\DivisionType.cs" />
     <Compile Include="Entity\QueryPara.cs" />
+    <Compile Include="IFace\SqlServerBaseProvider.cs" />
     <Compile Include="Schema\AbsDbSchema.cs" />
     <Compile Include="Schema\AbsDbHostSchema.cs" />
     <Compile Include="Schema\AbsTableSchema.cs" />
