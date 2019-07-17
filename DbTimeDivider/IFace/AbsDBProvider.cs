@@ -13,8 +13,9 @@ namespace DbTimeDivider.IFace
     public abstract class AbsDBProvider
     {
         private static object _lockObj = new object();
+        private static DateTime _latestCheckTime = DateTime.Now;
 
-        public SortedDictionary<string, QueryItem> _currentQueryItem = new SortedDictionary<string, QueryItem>();
+        public SortedDictionary<string, CacheQueryItem> _currentQueryItem = new SortedDictionary<string, CacheQueryItem>();
         public QueryItem CurrentQueryItem
         {
             get
@@ -22,7 +23,8 @@ namespace DbTimeDivider.IFace
                 lock (_lockObj)
                 {
                     string key = $"ThreadId [{Thread.CurrentThread.ManagedThreadId}]";
-                    return _currentQueryItem[key];
+                    _currentQueryItem[key].CacheTime = DateTime.Now;
+                    return _currentQueryItem[key].QueryItem;
                 }
             }
             set
@@ -32,11 +34,12 @@ namespace DbTimeDivider.IFace
                     string key = $"ThreadId [{Thread.CurrentThread.ManagedThreadId}]";
                     if (_currentQueryItem.ContainsKey(key))
                     {
-                        _currentQueryItem[key] = value;
+                        _currentQueryItem[key].QueryItem = value;
+                        _currentQueryItem[key].CacheTime = DateTime.Now;
                     }
                     else
                     {
-                        _currentQueryItem.Add(key, value);
+                        _currentQueryItem.Add(key, new CacheQueryItem { QueryItem = value, CacheTime = DateTime.Now });
                     }
                 }
             }
@@ -55,7 +58,7 @@ namespace DbTimeDivider.IFace
             }
         }
 
-        private SortedDictionary<string, IDbContext> _dictDbContext = new SortedDictionary<string, IDbContext>();
+        private SortedDictionary<string, CacheDbContext> _dictDbContext = new SortedDictionary<string, CacheDbContext>();
 
         public IDbContext DbContext
         {
@@ -66,12 +69,13 @@ namespace DbTimeDivider.IFace
                     string key = $"DatabaseName [{CurrentQueryItem.DatabaseName}] && ThreadId [{Thread.CurrentThread.ManagedThreadId}]";
                     if (_dictDbContext.ContainsKey(key))
                     {
-                        return _dictDbContext[key];
+                        _dictDbContext[key].CacheTime = DateTime.Now;
+                        return _dictDbContext[key].DbContext;
                     }
                     else
                     {
                         var dbContext = GetDbContext();
-                        _dictDbContext.Add(key, dbContext);
+                        _dictDbContext.Add(key, new CacheDbContext { DbContext = dbContext, CacheTime = DateTime.Now });
                         return dbContext;
                     }
                 }
@@ -99,6 +103,37 @@ namespace DbTimeDivider.IFace
             {
                 schema.CheckExists(context);
             }
+
+            //移除过期的DbContext、QueryItem，5分钟内没使用过就移除掉
+            lock (_lockObj)
+            {
+                if ((DateTime.Now - _latestCheckTime).Minutes > 5)
+                {
+                    _latestCheckTime = DateTime.Now;
+                    List<string> expire = new List<string>();
+                    foreach (var item in _currentQueryItem)
+                    {
+                        if ((DateTime.Now - item.Value.CacheTime).Minutes > 5)
+                            expire.Add(item.Key);
+                    }
+                    foreach (var item in expire)
+                    {
+                        _currentQueryItem.Remove(item);
+                    }
+
+                    expire = new List<string>();
+                    foreach (var item in _dictDbContext)
+                    {
+                        if ((DateTime.Now - item.Value.CacheTime).Minutes > 5)
+                            expire.Add(item.Key);
+                    }
+                    foreach (var item in expire)
+                    {
+                        _dictDbContext.Remove(item);
+                    }
+                }
+            }
+
         }
 
         private FluentData.IDbCommand GetDbCommand(IDbContext dbContext, QueryPara queryPara, QueryItem queryItem)
