@@ -115,7 +115,6 @@ namespace DbTimeDivider.Entity
             context.Database = this;
             context.ITableSchemas = new List<ITableSchema>();
             context.QueryPara = parameter;
-            context.QueryItems = new List<QueryItem>();
 
             //提取表名
             Regex regex = new Regex(@"『(?<tableName>.+?)』", RegexOptions.Multiline);
@@ -139,6 +138,7 @@ namespace DbTimeDivider.Entity
 
             divisionType.SetTargetTime(ref tempTime1, ref tempTime2);
 
+            var tempQueryItems = new List<QueryItem>();
             while (true)
             {
                 QueryItem queryItem = new QueryItem();
@@ -154,7 +154,7 @@ namespace DbTimeDivider.Entity
                 }
                 queryItem.TargetTime = tempTime1;
 
-                context.QueryItems.Add(queryItem);
+                tempQueryItems.Add(queryItem);
 
                 divisionType.PlusTargetTime(ref tempTime1);
 
@@ -163,6 +163,8 @@ namespace DbTimeDivider.Entity
                     break;
                 }
             }
+
+            context.QueryItems = tempQueryItems.GroupBy(o => o.DatabaseName).ToDictionary(g => g.Key, g => g.ToList());
 
             return context;
         }

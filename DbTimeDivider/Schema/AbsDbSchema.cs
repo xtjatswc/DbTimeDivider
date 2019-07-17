@@ -32,7 +32,7 @@ namespace DbTimeDivider.Schema
 
         public void CheckExists(DivisionContext context)
         {
-            var dbNames = context.QueryItems.Select(o => o.DatabaseName).Distinct();
+            var dbNames = context.QueryItems.Keys;
 
             if(Database.DBProvider is SqlServerBaseProvider)
                 Database.DBProvider.CurrentQueryItem = new QueryItem() { DatabaseName = "master" };

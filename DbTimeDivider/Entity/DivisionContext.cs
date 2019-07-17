@@ -13,7 +13,7 @@ namespace DbTimeDivider.Entity
 
         public List<ITableSchema> ITableSchemas { get; set; }
 
-        public List<QueryItem> QueryItems { get; set; }
+        public Dictionary<string, List<QueryItem>> QueryItems { get; set; }
 
         public QueryPara QueryPara { get; set; }
 

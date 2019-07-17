@@ -27,23 +27,26 @@ namespace DbTimeDivider.Schema
 
         public void CheckExists(DivisionContext context)
         {
-            foreach (var queryItem in context.QueryItems)
+            foreach (var dbQueryItem in context.QueryItems)
             {
-                var tableName = queryItem.TableNames[this];
-                string existsKey = $"{queryItem.DatabaseName}=>{tableName}";
-
-                if (_isExists.Contains(existsKey))
-                    continue;
-
-                Table.Database.DBProvider.CurrentQueryItem = queryItem;
-                if (Table.Database.DBProvider.IsTableExists(tableName))
+                foreach (var queryItem in dbQueryItem.Value)
                 {
-                    _isExists.Add(existsKey);
-                    continue;
-                }
+                    var tableName = queryItem.TableNames[this];
+                    string existsKey = $"{queryItem.DatabaseName}=>{tableName}";
 
-                Create(tableName);
-                _isExists.Add(existsKey);
+                    if (_isExists.Contains(existsKey))
+                        continue;
+
+                    Table.Database.DBProvider.CurrentQueryItem = queryItem;
+                    if (Table.Database.DBProvider.IsTableExists(tableName))
+                    {
+                        _isExists.Add(existsKey);
+                        continue;
+                    }
+
+                    Create(tableName);
+                    _isExists.Add(existsKey);
+                }
             }
 
         }

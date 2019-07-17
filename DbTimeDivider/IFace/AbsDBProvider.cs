@@ -83,18 +83,21 @@ namespace DbTimeDivider.IFace
             CheckExists(context);
 
             DataTable retTbl = null;
-            foreach (var queryItem in context.QueryItems)
+            foreach (var dbQueryItem in context.QueryItems)
             {
-                CurrentQueryItem = queryItem;
-
-                var tbl = GetDbCommand(DbContext, context.QueryPara, queryItem).QuerySingle<DataTable>();
-                if (retTbl == null)
+                CurrentQueryItem = new QueryItem { DatabaseName = dbQueryItem.Key };
+                foreach (var queryItem in dbQueryItem.Value)
                 {
-                    retTbl = tbl;
-                }
-                else
-                {
-                    retTbl.Merge(tbl);
+                    CurrentQueryItem = queryItem;
+                    var tbl = GetDbCommand(DbContext, context.QueryPara, queryItem).QuerySingle<DataTable>();
+                    if (retTbl == null)
+                    {
+                        retTbl = tbl;
+                    }
+                    else
+                    {
+                        retTbl.Merge(tbl);
+                    }
                 }
             }
 
@@ -106,12 +109,15 @@ namespace DbTimeDivider.IFace
             CheckExists(context);
 
             List<T> retList = new List<T>();
-            foreach (var queryItem in context.QueryItems)
+            foreach (var dbQueryItem in context.QueryItems)
             {
-                CurrentQueryItem = queryItem;
-
-                var list = GetDbCommand(DbContext, context.QueryPara, queryItem).QueryMany<T>();
-                retList.AddRange(list);
+                CurrentQueryItem = new QueryItem { DatabaseName = dbQueryItem.Key };
+                foreach (var queryItem in dbQueryItem.Value)
+                {
+                    CurrentQueryItem = queryItem;
+                    var list = GetDbCommand(DbContext, context.QueryPara, queryItem).QueryMany<T>();
+                    retList.AddRange(list);
+                }
             }
 
             return retList;
@@ -122,13 +128,16 @@ namespace DbTimeDivider.IFace
             CheckExists(context);
 
             int affectedRows = 0;
-            foreach (var queryItem in context.QueryItems)
+            foreach (var dbQueryItem in context.QueryItems)
             {
-                CurrentQueryItem = queryItem;
-
+                CurrentQueryItem = new QueryItem { DatabaseName = dbQueryItem.Key };
                 using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
                 {
-                    affectedRows += GetDbCommand(dbContext, context.QueryPara, queryItem).Execute();
+                    foreach (var queryItem in dbQueryItem.Value)
+                    {
+                        CurrentQueryItem = queryItem;
+                        affectedRows += GetDbCommand(dbContext, context.QueryPara, queryItem).Execute();
+                    }
                     dbContext.Commit();
                 }
             }
@@ -141,15 +150,18 @@ namespace DbTimeDivider.IFace
             CheckExists(context);
 
             int affectedRows = 0;
-            foreach (var queryItem in context.QueryItems)
+            foreach (var dbQueryItem in context.QueryItems)
             {
-                CurrentQueryItem = queryItem;
-
+                CurrentQueryItem = new QueryItem { DatabaseName = dbQueryItem.Key };
                 using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
-                {                    
-                    affectedRows += DbContext.Insert<T>(queryItem.TableNames.First().Value, t)
-                        .AutoMap(ignoreProperties)
-                        .Execute();
+                {
+                    foreach (var queryItem in dbQueryItem.Value)
+                    {
+                        CurrentQueryItem = queryItem;
+                        affectedRows += dbContext.Insert<T>(queryItem.TableNames.First().Value, t)
+                            .AutoMap(ignoreProperties)
+                            .Execute();
+                    }
                     dbContext.Commit();
                 }
             }
@@ -162,16 +174,19 @@ namespace DbTimeDivider.IFace
             CheckExists(context);
 
             int affectedRows = 0;
-            foreach (var queryItem in context.QueryItems)
+            foreach (var dbQueryItem in context.QueryItems)
             {
-                CurrentQueryItem = queryItem;
-
+                CurrentQueryItem = new QueryItem { DatabaseName = dbQueryItem.Key };
                 using (var dbContext = DbContext.UseTransaction(context.QueryPara.UseTransaction))
                 {
-                    affectedRows += DbContext.Update<T>(queryItem.TableNames.First().Value, t)
-                        .AutoMap(ignoreProperties)
-                        .Where(whereProperties)
-                        .Execute();
+                    foreach (var queryItem in dbQueryItem.Value)
+                    {
+                        CurrentQueryItem = queryItem;
+                        affectedRows += dbContext.Update<T>(queryItem.TableNames.First().Value, t)
+                            .AutoMap(ignoreProperties)
+                            .Where(whereProperties)
+                            .Execute();
+                    }
                     dbContext.Commit();
                 }
             }
