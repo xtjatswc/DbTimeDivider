@@ -6,12 +6,41 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 
 namespace DbTimeDivider.IFace
 {
     public abstract class AbsDBProvider
     {
-        public QueryItem CurrentQueryItem { get; set; }
+        private static object _lockObj = new object();
+
+        public SortedDictionary<string, QueryItem> _currentQueryItem = new SortedDictionary<string, QueryItem>();
+        public QueryItem CurrentQueryItem
+        {
+            get
+            {
+                lock (_lockObj)
+                {
+                    string key = $"ThreadId [{Thread.CurrentThread.ManagedThreadId}]";
+                    return _currentQueryItem[key];
+                }
+            }
+            set
+            {
+                lock (_lockObj)
+                {
+                    string key = $"ThreadId [{Thread.CurrentThread.ManagedThreadId}]";
+                    if (_currentQueryItem.ContainsKey(key))
+                    {
+                        _currentQueryItem[key] = value;
+                    }
+                    else
+                    {
+                        _currentQueryItem.Add(key, value);
+                    }
+                }
+            }
+        }
 
         private Database _database = null;
         protected Database Database
@@ -27,19 +56,24 @@ namespace DbTimeDivider.IFace
         }
 
         private SortedDictionary<string, IDbContext> _dictDbContext = new SortedDictionary<string, IDbContext>();
+
         public IDbContext DbContext
         {
             get
             {
-                if (_dictDbContext.ContainsKey(CurrentQueryItem.DatabaseName))
+                lock (_lockObj)
                 {
-                    return _dictDbContext[CurrentQueryItem.DatabaseName];
-                }
-                else
-                {
-                    var dbContext = GetDbContext();
-                    _dictDbContext.Add(CurrentQueryItem.DatabaseName, dbContext);
-                    return dbContext;
+                    string key = $"DatabaseName [{CurrentQueryItem.DatabaseName}] && ThreadId [{Thread.CurrentThread.ManagedThreadId}]";
+                    if (_dictDbContext.ContainsKey(key))
+                    {
+                        return _dictDbContext[key];
+                    }
+                    else
+                    {
+                        var dbContext = GetDbContext();
+                        _dictDbContext.Add(key, dbContext);
+                        return dbContext;
+                    }
                 }
             }
         }
