@@ -73,5 +73,20 @@ namespace DbTimeDivider.Schema
         {
             Database.DBProvider.DbContext.Sql(sql).Execute();
         }
+
+        public void SplitExecute(string sql, string separator, bool useTransaction = true)
+        {
+            string[] arr = sql.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+
+            using (var context = Database.DBProvider.DbContext.UseTransaction(useTransaction))
+            {
+                foreach (var item in arr)
+                {
+                    context.Sql(item).Execute();
+                }
+                context.Commit();
+            }
+
+        }
     }
 }

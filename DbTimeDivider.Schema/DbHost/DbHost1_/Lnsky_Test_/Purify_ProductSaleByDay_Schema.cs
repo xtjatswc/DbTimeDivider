@@ -257,12 +257,7 @@ ON [PRIMARY]
 GO
 ";
 
-            sql = string.Format(sql, tablePack.TableName);
-            string[] arr = sql.Split(new string[] { "GO\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var item in arr)
-            {
-                Execute(item);
-            }
+            SplitExecute(sql, "GO\r\n");
         }
 
     }

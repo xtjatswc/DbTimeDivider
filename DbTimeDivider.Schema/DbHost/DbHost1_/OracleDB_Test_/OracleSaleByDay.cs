@@ -13,11 +13,9 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_.OracleDB_Test_
         public override void Create(TablePack tablePack)
         {
             string sql = string.Format(Properties.Resources.Oracle_SaleByDay, tablePack.TableName, tablePack.DatabaseSuffix);
-            string[] arr = sql.Split(new string[] { ";\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var item in arr)
-            {
-                Execute(item);
-            }
+
+            SplitExecute(sql, ";\r\n");
+
         }
 
         protected override void Define()
