@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using DbTimeDivider.IFace;
+using DbTimeDivider.Provider;
 using DbTimeDivider.Schema;
 using System.Reflection;
 using IContainer = Autofac.IContainer;

@@ -1,5 +1,5 @@
 ﻿using DbTimeDivider.Entity;
-using DbTimeDivider.IFace;
+using DbTimeDivider.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentData;
 
-namespace DbTimeDivider.IFace
+namespace DbTimeDivider.Provider
 {
     public abstract class SqliteBaseProvider : AbsDBProvider
     {

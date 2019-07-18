@@ -1,4 +1,4 @@
-﻿using DbTimeDivider.IFace;
+﻿using DbTimeDivider.Provider;
 
 namespace DbTimeDivider.Schema.DBProvider
 {

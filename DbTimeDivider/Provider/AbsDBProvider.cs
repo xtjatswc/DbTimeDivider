@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 
-namespace DbTimeDivider.IFace
+namespace DbTimeDivider.Provider
 {
     public abstract class AbsDBProvider
     {

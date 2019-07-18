@@ -1,5 +1,5 @@
 ﻿using DbTimeDivider.Core;
-using DbTimeDivider.IFace;
+using DbTimeDivider.Provider;
 using DbTimeDivider.Schema;
 using System;
 using System.Collections.Generic;
