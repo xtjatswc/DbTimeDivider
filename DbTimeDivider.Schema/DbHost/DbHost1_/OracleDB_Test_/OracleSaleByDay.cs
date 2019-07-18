@@ -13,11 +13,16 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_.OracleDB_Test_
         public override void Create(TablePack tablePack)
         {
             string sql = string.Format(Properties.Resources.Oracle_SaleByDay, tablePack.TableName, tablePack.DatabaseSuffix);
-            Execute(sql);
+            string[] arr = sql.Split(new string[] { ";\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in arr)
+            {
+                Execute(item);
+            }
         }
 
         protected override void Define()
         {
+            //oracle表名要求大写
             Table.Name = "ORACLE_SALE_BY_DAY_{0}";
             Table.DivisionFlag = DivisionFlag.yyMM;
         }

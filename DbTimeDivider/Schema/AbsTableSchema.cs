@@ -31,20 +31,20 @@ namespace DbTimeDivider.Schema
             {
                 foreach (var queryItem in dbQueryItem.Value)
                 {
-                    var tableName = queryItem.TableNames[this];
-                    string existsKey = $"{queryItem.DatabaseName}=>{tableName}";
+                    var tablePack = queryItem.TableNames[this];
+                    string existsKey = $"{queryItem.DatabaseName}=>{tablePack.TableName}";
 
                     if (_isExists.Contains(existsKey))
                         continue;
 
                     Table.Database.DBProvider.CurrentQueryItem = queryItem;
-                    if (Table.Database.DBProvider.IsTableExists(tableName.TableName))
+                    if (Table.Database.DBProvider.IsTableExists(tablePack.TableName))
                     {
                         _isExists.Add(existsKey);
                         continue;
                     }
 
-                    Create(tableName);
+                    Create(tablePack);
                     _isExists.Add(existsKey);
                 }
             }

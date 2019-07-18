@@ -9,45 +9,45 @@ namespace DbTimeDivider.Entity
     public class OracleSaleByDay
     {
 
-        public string SysNo { get; set; }
+        public String SYSNO { get; set; }
 
-        public String DataSource { get; set; }
+        public String DATASOURCE { get; set; }
 
-        public String OutProductID { get; set; }
+        public String OUTPRODUCTID { get; set; }
 
-        public string BrandID { get; set; }
+        public String BRANDID { get; set; }
 
-        public string CategoryID { get; set; }
+        public String CATEGORYID { get; set; }
 
-        public string ProductID { get; set; }
+        public String PRODUCTID { get; set; }
 
-        public String ProductName { get; set; }
+        public String PRODUCTNAME { get; set; }
 
-        public string ShopID { get; set; }
+        public String SHOPID { get; set; }
 
-        public String ShopName { get; set; }
+        public String SHOPNAME { get; set; }
 
-        public DateTime StatisticalDate { get; set; }
+        public DateTime STATISTICALDATE { get; set; }
 
-        public Decimal Sales { get; set; }
+        public Decimal SALES { get; set; }
 
-        public Int32 NumberOfSales { get; set; }
+        public Int64 NUMBEROFSALES { get; set; }
 
-        public Decimal AveragePrice { get; set; }
+        public Decimal AVERAGEPRICE { get; set; }
 
-        public Int32 OrderQuantity { get; set; }
+        public Int64 ORDERQUANTITY { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime CREATEDATE { get; set; }
 
-        public string CreateUserID { get; set; }
+        public String CREATEUSERID { get; set; }
 
-        public DateTime UpdateDate { get; set; }
+        public DateTime UPDATEDATE { get; set; }
 
-        public string UpdateUserID { get; set; }
+        public String UPDATEUSERID { get; set; }
 
-        public string ImportGroupId { get; set; }
+        public String IMPORTGROUPID { get; set; }
 
-        public Boolean IsExclude { get; set; }
+        public Int16 ISEXCLUDE { get; set; }
 
     }
 }

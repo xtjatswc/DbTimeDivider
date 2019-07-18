@@ -14,29 +14,49 @@ namespace DataDepotsDemo
             #region oracle
             var db = TimeDivider.GetService<OracleDB_Test>().Database;
 
+            var tbl2 = TimeDivider.DbHosts[@"127.0.0.1"].Databases["user{0}"].Tables["ORACLE_SALE_BY_DAY_{0}"];
+            string ret = tbl2.ITableSchema.GenerateEntity();
+
+
+
             //添加
             var parameter = new QueryPara
             {
                 Sql = @"『ORACLE_SALE_BY_DAY_{0}』",
+                TargetTime1 = DateTime.Now,
                 UseTransaction = true,
             };
             OracleSaleByDay model3 = new OracleSaleByDay
             {
-                ProductID = Guid.NewGuid().ToString(),
-                SysNo = Guid.NewGuid().ToString(),
-                BrandID = Guid.NewGuid().ToString(),
-                CategoryID = Guid.NewGuid().ToString(),
-                ShopID = Guid.NewGuid().ToString(),
-                CreateUserID = Guid.NewGuid().ToString(),
-                ImportGroupId = Guid.NewGuid().ToString(),
-                ProductName = "abcd",
-                CreateDate = DateTime.Now,
-                StatisticalDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                DataSource = "aaa",
-                OutProductID = "ddd" + DateTime.Now.ToString()
+                PRODUCTID = Guid.NewGuid().ToString(),
+                SYSNO = Guid.NewGuid().ToString(),
+                BRANDID = Guid.NewGuid().ToString(),
+                CATEGORYID = Guid.NewGuid().ToString(),
+                SHOPID = Guid.NewGuid().ToString(),
+                CREATEUSERID = Guid.NewGuid().ToString(),
+                IMPORTGROUPID = Guid.NewGuid().ToString(),
+                PRODUCTNAME = "abcd",
+                CREATEDATE = DateTime.Now,
+                STATISTICALDATE = DateTime.Now,
+                UPDATEDATE = DateTime.Now,
+                DATASOURCE = "aaa",
+                OUTPRODUCTID = "ddd" + DateTime.Now.ToString()
             };
             var rows = db.Insert<OracleSaleByDay>(parameter, model3);
+
+            //执行查询
+            parameter = new QueryPara
+            {
+                Sql = @"select a.* from 『ORACLE_SALE_BY_DAY_{0}』 a",
+                TargetTime1 = DateTime.Parse("2019-06-01"),
+                TargetTime2 = DateTime.Parse("2020-05-01"),
+                ParamSet = { { "SysNo", "99268d19-a950-4311-9aa5-017a4912d605" } },
+                Parameters = { "99268d19-a950-4311-9aa5-017a4912d605" }
+            };
+
+            var tbl4 = db.Query(parameter);
+            var list = db.Query<OracleSaleByDay>(parameter);
+
             #endregion
 
             #region sqlite
@@ -76,8 +96,8 @@ namespace DataDepotsDemo
                 Parameters = { "9A6F3506-33FF-4436-B845-02522BE98120" }
             };
 
-            var tbl4 = db.Query(parameter);
-            var list = db.Query<SaleByDay>(parameter);
+            tbl4 = db.Query(parameter);
+            var list2 = db.Query<SaleByDay>(parameter);
 
             //删除
             parameter = new QueryPara
@@ -106,7 +126,7 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
             };
 
             tbl4 = db.Query(parameter);
-            var list2 = db.Query<Purify_ProductSaleByDay>(parameter);
+            var list3 = db.Query<Purify_ProductSaleByDay>(parameter);
 
             //生成实体属性
             //var tbl2 = TimeDivider.DbHosts[@".\sqlexpress"].Databases["Lnsky_Test_{0}"].Tables["Purify_ProductSaleByDay_{0}"];

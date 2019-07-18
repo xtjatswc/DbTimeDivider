@@ -31,7 +31,11 @@ default tablespace ts{0};
 grant exp_full_database,imp_full_database,dba,connect,resource,create session,create any sequence,
 create any trigger to user{0}
 ", queryItem.DatabaseSuffix);
-            Execute(sql);
+            string[] arr = sql.Split(new string[] { ";\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var item in arr)
+            {
+                Execute(item);
+            }
 
         }
 
