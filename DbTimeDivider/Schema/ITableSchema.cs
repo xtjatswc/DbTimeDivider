@@ -9,7 +9,7 @@ namespace DbTimeDivider.Schema
 
         Table Table { get; set; }
 
-        void Create(string tableName);
+        void Create(TablePack tablePack);
 
         string GenerateEntity();
 

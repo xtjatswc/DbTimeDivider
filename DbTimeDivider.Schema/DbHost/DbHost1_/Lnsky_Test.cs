@@ -1,4 +1,5 @@
 ﻿using DbTimeDivider.Core;
+using DbTimeDivider.Entity;
 using DbTimeDivider.Schema.DBProvider;
 
 namespace DbTimeDivider.Schema.DbHost.DbHost1_
@@ -6,9 +7,9 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_
     public class Lnsky_Test : AbsDbSchema<DbHost1, SqlServerDBProvider>
     {
 
-        public override void Create(string dbName)
+        public override void Create(QueryItem queryItem)
         {
-            string sql = $"Create database {dbName}";
+            string sql = $"Create database {queryItem.DatabaseName}";
             Execute(sql);
         }
 
@@ -20,5 +21,9 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_
             Database.DivisionFlag = DivisionFlag.yy;
         }
 
+        protected override QueryItem GetDefaultQueryItem()
+        {
+            return new QueryItem { DatabaseName = "master" };
+        }
     }
 }

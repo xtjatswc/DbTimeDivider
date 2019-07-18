@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OracleSaleByDay.cs" />
     <Compile Include="SaleByDay.cs" />
     <Compile Include="Purify_ProductSaleByDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

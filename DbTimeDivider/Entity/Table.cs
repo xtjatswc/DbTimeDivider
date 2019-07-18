@@ -24,7 +24,7 @@ namespace DbTimeDivider.Entity
             }
         }
 
-        public string GetRealName(DateTime targetTime)
+        public string GetRealName(DateTime targetTime, ref string suffix)
         {
             if(DivisionType == DivisionType.None)
             {
@@ -32,7 +32,8 @@ namespace DbTimeDivider.Entity
             }
             else
             {
-                return string.Format(Name, targetTime.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag)));
+                suffix = targetTime.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag));
+                return string.Format(Name, suffix);
             }
         }
 

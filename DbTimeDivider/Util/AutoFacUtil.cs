@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DataDepots.Util
+namespace DbTimeDivider.Util
 {
     public static class AutoFacUtil
     {

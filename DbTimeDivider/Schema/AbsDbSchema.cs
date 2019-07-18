@@ -13,6 +13,22 @@ namespace DbTimeDivider.Schema
 
         public Database Database { get; set; }
 
+        private QueryItem _defaultQueryItem;
+        public QueryItem DefaultQueryItem
+        {
+            get
+            {
+                if (_defaultQueryItem == null)
+                {
+                    _defaultQueryItem = GetDefaultQueryItem();
+                }
+
+                return _defaultQueryItem;
+            }
+        }
+
+        protected abstract QueryItem GetDefaultQueryItem();
+
         private List<string> _isExists = new List<string>();
 
         public AbsDbSchema()
@@ -28,14 +44,13 @@ namespace DbTimeDivider.Schema
 
         protected abstract void Define();
 
-        public abstract void Create(string dbName);
+        public abstract void Create(QueryItem queryItem);
 
         public void CheckExists(DivisionContext context)
         {
             var dbNames = context.QueryItems.Keys;
 
-            if(Database.DBProvider is SqlServerBaseProvider)
-                Database.DBProvider.CurrentQueryItem = new QueryItem() { DatabaseName = "master" };
+            Database.DBProvider.CurrentQueryItem = Database.IDbSchema.DefaultQueryItem;
 
             foreach (var dbName in dbNames)
             {
@@ -48,7 +63,7 @@ namespace DbTimeDivider.Schema
                     continue;
                 }
 
-                Create(dbName);
+                Create(context.QueryItems[dbName].First());
                 _isExists.Add(dbName);
 
             }

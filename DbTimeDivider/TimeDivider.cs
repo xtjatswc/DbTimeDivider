@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using DataDepots.Util;
+using DbTimeDivider.Util;
 using DbTimeDivider.Config;
 using DbTimeDivider.Entity;
 using DbTimeDivider.Schema;

@@ -55,7 +55,7 @@ namespace DbTimeDivider.Entity
 
         public IDbSchema IDbSchema { get; set; }
 
-        public string GetRealName(DateTime targetTime)
+        public string GetRealName(DateTime targetTime, ref string suffix)
         {
             if (DivisionFlag == DivisionFlag.None)
             {
@@ -63,7 +63,8 @@ namespace DbTimeDivider.Entity
             }
             else
             {
-                return string.Format(Name, targetTime.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag)));
+                suffix = targetTime.ToString(Enum.GetName(typeof(DivisionFlag), DivisionFlag));
+                return string.Format(Name, suffix);
             }
         }
 
@@ -142,13 +143,24 @@ namespace DbTimeDivider.Entity
             {
                 QueryItem queryItem = new QueryItem();
                 queryItem.ExecSql = parameter.Sql;
-                queryItem.DatabaseName = GetRealName(tempTime1);
+                var suffix = "";
+                queryItem.DatabaseName = GetRealName(tempTime1, ref suffix);
+                queryItem.DatabaseSuffix = suffix;
 
                 //需要替换的表
                 foreach (var tableSchema in context.ITableSchemas)
                 {
-                    string tableName = tableSchema.Table.GetRealName(tempTime1);
-                    queryItem.TableNames.Add(tableSchema, tableName);
+                    suffix = "";
+                    string tableName = tableSchema.Table.GetRealName(tempTime1, ref suffix);
+                    var tablePack = new TablePack
+                    {
+                        DatabaseName = queryItem.DatabaseName,
+                        DatabaseSuffix = queryItem.DatabaseSuffix,
+                        TableName = tableName,
+                        TableSuffix = suffix,
+                        queryItem = queryItem
+                    };
+                    queryItem.TableNames.Add(tableSchema, tablePack);
                     queryItem.ExecSql = queryItem.ExecSql.Replace($"『{tableSchema.Table.Name}』", $" {tableName} ");
                 }
                 queryItem.TargetTime = tempTime1;

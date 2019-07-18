@@ -1,4 +1,5 @@
 ﻿using DbTimeDivider.Core;
+using DbTimeDivider.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_.SqliteDB_Test_
 {
     public class SaleByDay : AbsTableSchema<SqliteDB_Test>
     {
-        public override void Create(string tableName)
+        public override void Create(TablePack tablePack)
         {
-            string sql = string.Format(Properties.Resources.SaleByDay, tableName);
+            string sql = string.Format(Properties.Resources.SaleByDay, tablePack.TableName);
             Execute(sql);
         }
 

@@ -11,7 +11,9 @@ namespace DbTimeDivider.Entity
     {
         public string DatabaseName { get; set; }
 
-        public Dictionary<ITableSchema, string> TableNames { get; set; } = new Dictionary<ITableSchema, string>();
+        public string DatabaseSuffix { get; set; }
+
+        public Dictionary<ITableSchema, TablePack> TableNames { get; set; } = new Dictionary<ITableSchema, TablePack>();
 
         public string ExecSql { get; set; }
 

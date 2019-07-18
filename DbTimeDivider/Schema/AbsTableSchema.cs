@@ -23,7 +23,7 @@ namespace DbTimeDivider.Schema
 
         protected abstract void Define();
 
-        public abstract void Create(string tableName);
+        public abstract void Create(TablePack tablePack);
 
         public void CheckExists(DivisionContext context)
         {
@@ -38,7 +38,7 @@ namespace DbTimeDivider.Schema
                         continue;
 
                     Table.Database.DBProvider.CurrentQueryItem = queryItem;
-                    if (Table.Database.DBProvider.IsTableExists(tableName))
+                    if (Table.Database.DBProvider.IsTableExists(tableName.TableName))
                     {
                         _isExists.Add(existsKey);
                         continue;

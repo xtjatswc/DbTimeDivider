@@ -6,9 +6,10 @@ namespace DbTimeDivider.Schema
     {
         Database Database { get; set; }
 
-        void Create(string dbName);
+        void Create(QueryItem queryItem);
 
         void CheckExists(DivisionContext context);
 
+        QueryItem DefaultQueryItem { get; }
     }
 }

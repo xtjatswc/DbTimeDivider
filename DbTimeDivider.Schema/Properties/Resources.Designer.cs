@@ -61,7 +61,30 @@ namespace DbTimeDivider.Schema.Properties {
         }
         
         /// <summary>
-        ///   查找类似 CREATE TABLE &quot;SaleByDay_08&quot; (
+        ///   查找类似 
+        ///
+        ///-- ----------------------------
+        ///-- Table structure for Purify_ProductSaleByDay_07
+        ///-- ----------------------------
+        ///CREATE TABLE &quot;USER2019&quot;.&quot;Purify_ProductSaleByDay_07&quot; (
+        ///  &quot;SysNo&quot; CHAR(36 BYTE) NOT NULL ,
+        ///  &quot;DataSource&quot; NVARCHAR2(100) NOT NULL ,
+        ///  &quot;OutProductID&quot; NVARCHAR2(100) NOT NULL ,
+        ///  &quot;BrandID&quot; CHAR(36 BYTE) NOT NULL ,
+        ///  &quot;CategoryID&quot; CHAR(36 BYTE) NOT NULL ,
+        ///  &quot;ProductID&quot; CHAR(36 BYTE) NOT NULL ,
+        ///  &quot;ProductName&quot; NVARCHAR2(100) NOT NULL ,
+        ///  &quot;ShopID&quot; CHAR(36 BYTE) NOT NULL ,
+        ///  &quot;ShopName&quot; N [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string Oracle_SaleByDay {
+            get {
+                return ResourceManager.GetString("Oracle_SaleByDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CREATE TABLE &quot;{0}&quot; (
         ///  &quot;SysNo&quot; text(36) NOT NULL,
         ///  &quot;DataSource&quot; text(100) NOT NULL,
         ///  &quot;OutProductID&quot; text(100) NOT NULL,
@@ -76,7 +99,7 @@ namespace DbTimeDivider.Schema.Properties {
         ///  &quot;NumberOfSales&quot; integer NOT NULL,
         ///  &quot;AveragePrice&quot; real(18,2) NOT NULL,
         ///  &quot;OrderQuantity&quot; integer NOT NULL,
-        ///   [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///  &quot;CreateDa [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string SaleByDay {
             get {

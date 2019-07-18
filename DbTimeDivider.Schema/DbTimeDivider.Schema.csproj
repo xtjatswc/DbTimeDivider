@@ -45,8 +45,11 @@
     <Compile Include="DbHost\DbHost1_\Lnsky_Test.cs" />
     <Compile Include="DbHost\DbHost1.cs" />
     <Compile Include="DbHost\DbHost1_\Lnsky_Test_\SaleDetail_Schema.cs" />
+    <Compile Include="DbHost\DbHost1_\OracleDB_Test.cs" />
+    <Compile Include="DbHost\DbHost1_\OracleDB_Test_\OracleSaleByDay.cs" />
     <Compile Include="DbHost\DbHost1_\SqliteDB_Test.cs" />
     <Compile Include="DbHost\DbHost1_\SqliteDB_Test_\SaleByDay.cs" />
+    <Compile Include="DBProvider\OracleDBProvider.cs" />
     <Compile Include="DBProvider\SqliteDBProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DBProvider\SqlServerDBProvider.cs" />
@@ -71,6 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SaleByDay.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Oracle_SaleByDay.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

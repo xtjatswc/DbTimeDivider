@@ -1,4 +1,5 @@
 ﻿using DbTimeDivider.Core;
+using DbTimeDivider.Entity;
 using DbTimeDivider.Schema;
 using System;
 
@@ -12,7 +13,7 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_
             Table.DivisionFlag = DivisionFlag.MM;
         }
 
-        public override void Create(string tableName)
+        public override void Create(TablePack tablePack)
         {
             string sql = @"
 /*
@@ -256,7 +257,7 @@ ON [PRIMARY]
 GO
 ";
 
-            sql = string.Format(sql, tableName);
+            sql = string.Format(sql, tablePack.TableName);
             string[] arr = sql.Split(new string[] { "GO\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var item in arr)
             {

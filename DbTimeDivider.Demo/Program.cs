@@ -1,10 +1,7 @@
 ﻿using DbTimeDivider;
 using DbTimeDivider.Entity;
 using DbTimeDivider.Schema.DbHost.DbHost1_;
-using DbTimeDivider.Schema.DbHost.DbHost1_.Lnsky_Test_;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace DataDepotsDemo
 {
@@ -14,11 +11,39 @@ namespace DataDepotsDemo
         {
             TimeDivider.Register("DbTimeDivider.Schema");
 
-            #region sqlite
-            var db = TimeDivider.GetService<SqliteDB_Test>().Database;
+            #region oracle
+            var db = TimeDivider.GetService<OracleDB_Test>().Database;
 
             //添加
             var parameter = new QueryPara
+            {
+                Sql = @"『ORACLE_SALE_BY_DAY_{0}』",
+                UseTransaction = true,
+            };
+            OracleSaleByDay model3 = new OracleSaleByDay
+            {
+                ProductID = Guid.NewGuid().ToString(),
+                SysNo = Guid.NewGuid().ToString(),
+                BrandID = Guid.NewGuid().ToString(),
+                CategoryID = Guid.NewGuid().ToString(),
+                ShopID = Guid.NewGuid().ToString(),
+                CreateUserID = Guid.NewGuid().ToString(),
+                ImportGroupId = Guid.NewGuid().ToString(),
+                ProductName = "abcd",
+                CreateDate = DateTime.Now,
+                StatisticalDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+                DataSource = "aaa",
+                OutProductID = "ddd" + DateTime.Now.ToString()
+            };
+            var rows = db.Insert<OracleSaleByDay>(parameter, model3);
+            #endregion
+
+            #region sqlite
+            db = TimeDivider.GetService<SqliteDB_Test>().Database;
+
+            //添加
+            parameter = new QueryPara
             {
                 Sql = @"『SaleByDay_{0}』",
                 UseTransaction = true,
@@ -39,7 +64,7 @@ namespace DataDepotsDemo
                 DataSource = "aaa",
                 OutProductID = "ddd" + DateTime.Now.ToString()
             };
-            var rows = db.Insert<SaleByDay>(parameter, model);
+            rows = db.Insert<SaleByDay>(parameter, model);
 
             //执行查询
             parameter = new QueryPara

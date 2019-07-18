@@ -97,16 +97,16 @@ namespace DbTimeDivider.Provider
 
         private void CheckExists(DivisionContext context)
         {
-            //判断数据库、表是否存在
-            context.IDbSchema.CheckExists(context);
-            foreach (var schema in context.ITableSchemas)
-            {
-                schema.CheckExists(context);
-            }
-
-            //移除过期的DbContext、QueryItem，5分钟内没使用过就移除掉
             lock (_lockObj)
             {
+                //判断数据库、表是否存在
+                context.IDbSchema.CheckExists(context);
+                foreach (var schema in context.ITableSchemas)
+                {
+                    schema.CheckExists(context);
+                }
+
+                //移除过期的DbContext、QueryItem，5分钟内没使用过就移除掉
                 if ((DateTime.Now - _latestCheckTime).Minutes > 5)
                 {
                     _latestCheckTime = DateTime.Now;
@@ -227,7 +227,7 @@ namespace DbTimeDivider.Provider
                     foreach (var queryItem in dbQueryItem.Value)
                     {
                         CurrentQueryItem = queryItem;
-                        affectedRows += dbContext.Insert<T>(queryItem.TableNames.First().Value, t)
+                        affectedRows += dbContext.Insert<T>(queryItem.TableNames.First().Value.TableName, t)
                             .AutoMap(ignoreProperties)
                             .Execute();
                     }
@@ -251,7 +251,7 @@ namespace DbTimeDivider.Provider
                     foreach (var queryItem in dbQueryItem.Value)
                     {
                         CurrentQueryItem = queryItem;
-                        affectedRows += dbContext.Update<T>(queryItem.TableNames.First().Value, t)
+                        affectedRows += dbContext.Update<T>(queryItem.TableNames.First().Value.TableName, t)
                             .AutoMap(ignoreProperties)
                             .Where(whereProperties)
                             .Execute();

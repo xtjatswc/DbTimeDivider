@@ -6,7 +6,7 @@ namespace DbTimeDivider.Schema.DbHost
     {
         protected override void Define()
         {
-            DbHost.IP = @".";
+            DbHost.IP = @"127.0.0.1";
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DbTimeDivider.Core;
+using DbTimeDivider.Entity;
 using DbTimeDivider.Schema.DBProvider;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_
 {
     public class SqliteDB_Test : AbsDbSchema<DbHost1, SqliteDBProvider>
     {
-        public override void Create(string dbName)
+        public override void Create(QueryItem queryItem)
         {
             //throw new NotImplementedException();
         }
@@ -19,6 +20,11 @@ namespace DbTimeDivider.Schema.DbHost.DbHost1_
         {
             Database.Name = AppDomain.CurrentDomain.BaseDirectory + @"db\SqliteDB_Test_{0}.db";
             Database.DivisionFlag = DivisionFlag.yy;
+        }
+
+        protected override QueryItem GetDefaultQueryItem()
+        {
+            return new QueryItem();
         }
     }
 }
