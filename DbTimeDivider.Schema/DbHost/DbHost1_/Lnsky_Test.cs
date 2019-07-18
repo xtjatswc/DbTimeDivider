@@ -1,4 +1,4 @@
-﻿using DataDepots.Core;
+﻿using DbTimeDivider.Core;
 using DbTimeDivider.Schema.DBProvider;
 
 namespace DbTimeDivider.Schema.DbHost.DbHost1_

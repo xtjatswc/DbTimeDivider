@@ -1,4 +1,4 @@
-﻿using DataDepots.Core;
+﻿using DbTimeDivider.Core;
 using DbTimeDivider.Schema;
 using System;
 

@@ -1,4 +1,4 @@
-﻿using DataDepots.Core;
+﻿using DbTimeDivider.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

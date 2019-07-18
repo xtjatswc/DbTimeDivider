@@ -45,15 +45,32 @@
     <Compile Include="DbHost\DbHost1_\Lnsky_Test.cs" />
     <Compile Include="DbHost\DbHost1.cs" />
     <Compile Include="DbHost\DbHost1_\Lnsky_Test_\SaleDetail_Schema.cs" />
+    <Compile Include="DbHost\DbHost1_\SqliteDB_Test.cs" />
+    <Compile Include="DbHost\DbHost1_\SqliteDB_Test_\SaleByDay.cs" />
+    <Compile Include="DBProvider\SqliteDBProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DBProvider\SqlServerDBProvider.cs" />
     <Compile Include="DbHost\DbHost1_\Lnsky_Test_\Purify_ProductSaleByDay_Schema.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DbTimeDivider\DbTimeDivider.csproj">
       <Project>{d4de1c4a-e696-4c74-92d7-15af2595e92d}</Project>
       <Name>DbTimeDivider</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaleByDay.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

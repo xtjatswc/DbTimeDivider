@@ -13,10 +13,64 @@ namespace DataDepotsDemo
         static void Main(string[] args)
         {
             TimeDivider.Register("DbTimeDivider.Schema");
-            var db = TimeDivider.GetService<Lnsky_Test>().Database;
+
+            #region sqlite
+            var db = TimeDivider.GetService<SqliteDB_Test>().Database;
+
+            //添加
+            var parameter = new QueryPara
+            {
+                Sql = @"『SaleByDay_{0}』",
+                UseTransaction = true,
+            };
+            SaleByDay model = new SaleByDay
+            {
+                ProductID = Guid.NewGuid().ToString(),
+                SysNo = Guid.NewGuid().ToString(),
+                BrandID = Guid.NewGuid().ToString(),
+                CategoryID = Guid.NewGuid().ToString(),
+                ShopID = Guid.NewGuid().ToString(),
+                CreateUserID = Guid.NewGuid().ToString(),
+                ImportGroupId = Guid.NewGuid().ToString(),
+                ProductName = "abcd",
+                CreateDate = DateTime.Now,
+                StatisticalDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+                DataSource = "aaa",
+                OutProductID = "ddd" + DateTime.Now.ToString()
+            };
+            var rows = db.Insert<SaleByDay>(parameter, model);
 
             //执行查询
-            QueryPara parameter = new QueryPara
+            parameter = new QueryPara
+            {
+                Sql = @"select a.* from 『SaleByDay_{0}』 a",
+                TargetTime1 = DateTime.Parse("2019-06-01"),
+                TargetTime2 = DateTime.Parse("2020-05-01"),
+                ParamSet = { { "SysNo", "9A6F3506-33FF-4436-B845-02522BE98120" } },
+                Parameters = { "9A6F3506-33FF-4436-B845-02522BE98120" }
+            };
+
+            var tbl4 = db.Query(parameter);
+            var list = db.Query<SaleByDay>(parameter);
+
+            //删除
+            parameter = new QueryPara
+            {
+                Sql = @"delete from 『SaleByDay_{0}』 where SysNo = @0",
+                TargetTime1 = DateTime.Parse("2019-06-01"),
+                TargetTime2 = DateTime.Parse("2020-05-01"),
+                Parameters = { "1be9fb12-f943-4c22-bea2-a3d51c711d02" },
+                UseTransaction = true
+            };
+            rows = db.Execute(parameter);
+            #endregion
+
+            #region sql server
+            db = TimeDivider.GetService<Lnsky_Test>().Database;
+
+            //执行查询
+            parameter = new QueryPara
             {
                 Sql = @"select a.* from 『Purify_ProductSaleByDay_{0}』 a 
 left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.SysNo = @SysNo",
@@ -26,8 +80,8 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 Parameters = { "9A6F3506-33FF-4436-B845-02522BE98120" }
             };
 
-            var tbl4 = db.Query(parameter);
-            var list = db.Query<Purify_ProductSaleByDay>(parameter);
+            tbl4 = db.Query(parameter);
+            var list2 = db.Query<Purify_ProductSaleByDay>(parameter);
 
             //生成实体属性
             //var tbl2 = TimeDivider.DbHosts[@".\sqlexpress"].Databases["Lnsky_Test_{0}"].Tables["Purify_ProductSaleByDay_{0}"];
@@ -42,7 +96,7 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 Parameters = { "9A6F3506-33FF-4436-B845-02522BE98120" },
                 UseTransaction = true
             };
-            var rows = db.Execute(parameter);
+            rows = db.Execute(parameter);
 
             //添加
             parameter = new QueryPara
@@ -50,7 +104,7 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 Sql = @"『Purify_ProductSaleByDay_{0}』",
                 UseTransaction = true
             };
-            Purify_ProductSaleByDay model = new Purify_ProductSaleByDay
+            var model2 = new Purify_ProductSaleByDay
             {
                 SysNo = Guid.NewGuid(),
                 ProductName = "abcd",
@@ -60,7 +114,7 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 DataSource = "aaa",
                 OutProductID = "ddd" + DateTime.Now.ToString()
             };
-            rows = db.Insert<Purify_ProductSaleByDay>(parameter, model, x => x.ProductID);
+            rows = db.Insert<Purify_ProductSaleByDay>(parameter, model2, x => x.ProductID);
 
             //修改（注：主键是必须要排除的，有唯一索引时，不要多行更新成一样的值，会报错）
             parameter = new QueryPara
@@ -68,7 +122,7 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 Sql = @"『Purify_ProductSaleByDay_{0}』",
                 UseTransaction = true
             };
-            model = new Purify_ProductSaleByDay
+            model2 = new Purify_ProductSaleByDay
             {
                 SysNo = new Guid("9A6F3506-33FF-4436-B845-02522BE98120"),
                 ProductName = "abcd",
@@ -78,8 +132,8 @@ left join 『SaleDetail_{0}』 b on a.SysNo = b.SysNo and b.SysNo = @0 where a.S
                 DataSource = "aaa123",
                 OutProductID = "ddd" + DateTime.Now.ToString()
             };
-            rows = db.Update<Purify_ProductSaleByDay>(parameter, model, x => x.SysNo, i => i.SysNo);
-
+            rows = db.Update<Purify_ProductSaleByDay>(parameter, model2, x => x.SysNo, i => i.SysNo);
+            #endregion
         }
 
 

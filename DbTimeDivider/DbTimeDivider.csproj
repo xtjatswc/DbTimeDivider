@@ -57,6 +57,7 @@
     <Compile Include="Entity\CacheDbContext.cs" />
     <Compile Include="Entity\CacheQueryItem.cs" />
     <Compile Include="Entity\QueryPara.cs" />
+    <Compile Include="IFace\SqliteBaseProvider.cs" />
     <Compile Include="IFace\SqlServerBaseProvider.cs" />
     <Compile Include="Schema\AbsDbSchema.cs" />
     <Compile Include="Schema\AbsDbHostSchema.cs" />

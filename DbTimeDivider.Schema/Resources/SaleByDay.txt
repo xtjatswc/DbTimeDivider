@@ -1,0 +1,66 @@
+CREATE TABLE "{0}" (
+  "SysNo" text(36) NOT NULL,
+  "DataSource" text(100) NOT NULL,
+  "OutProductID" text(100) NOT NULL,
+  "BrandID" text(36) NOT NULL,
+  "CategoryID" text(36) NOT NULL,
+  "ProductID" text(36) NOT NULL,
+  "ProductName" text(100) NOT NULL,
+  "ShopID" text(36) NOT NULL,
+  "ShopName" text(100),
+  "StatisticalDate" text NOT NULL,
+  "Sales" real(18,2) NOT NULL,
+  "NumberOfSales" integer NOT NULL,
+  "AveragePrice" real(18,2) NOT NULL,
+  "OrderQuantity" integer NOT NULL,
+  "CreateDate" text NOT NULL,
+  "CreateUserID" text(36) NOT NULL,
+  "UpdateDate" text,
+  "UpdateUserID" text(36),
+  "ImportGroupId" text(36) NOT NULL,
+  "IsExclude" integer NOT NULL,
+  CONSTRAINT "PK_{0}" PRIMARY KEY ("SysNo")
+);
+
+-- ----------------------------
+-- Indexes structure for table {0}
+-- ----------------------------
+CREATE INDEX "IX_{0}"
+ON "{0}" (
+  "UpdateDate" ASC
+);
+CREATE UNIQUE INDEX "IX_{0}_DOS"
+ON "{0}" (
+  "DataSource" ASC,
+  "OutProductID" ASC,
+  "StatisticalDate" ASC
+);
+CREATE INDEX "IX_{0}_GenerateShopSaleByDay"
+ON "{0}" (
+  "StatisticalDate" ASC,
+  "IsExclude" ASC,
+  "BrandID" ASC,
+  "CategoryID" ASC
+);
+CREATE INDEX "IX_{0}_OrderBy"
+ON "{0}" (
+  "StatisticalDate" DESC,
+  "UpdateDate" DESC,
+  "CreateDate" DESC,
+  "SysNo" ASC
+);
+CREATE INDEX "IX_{0}_SI"
+ON "{0}" (
+  "StatisticalDate" DESC,
+  "IsExclude" ASC
+);
+CREATE INDEX "IX_{0}_ShopID"
+ON "{0}" (
+  "ShopID" ASC
+);
+CREATE INDEX "IX_{0}_StatisticalDate"
+ON "{0}" (
+  "StatisticalDate" DESC
+);
+
+PRAGMA foreign_keys = true;
